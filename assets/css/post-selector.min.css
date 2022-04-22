@@ -1,0 +1,171 @@
+.rpi-lzb-control_Post_Selector{padding:15px;background-color:#e9e9ea;border-radius:10px; display: none;}
+.rpi-lzb-control_Post_Selector>.components-base-control{margin-bottom:10px !important}
+.rpi-lzb-control_Post_Selector>.components-base-control+p{margin-bottom:0;font-size:.8em;opacity:.6}
+
+.wp-block-lazyblock-bausteinsammlung .components-text-control__input{
+    border-color: transparent;
+}
+.wp-block-lazyblock-bausteinsammlung .lzb-content-controls > div:first-child .components-text-control__input {
+    background-color: #eeeeee;
+    border-color: #dddddd;
+    font-size: large;
+}
+.wp-block-lazyblock-bausteinsammlung .wp-block-lazyblock-baustein .lzb-content-controls > div:first-child .components-text-control__input{
+    background-color: transparent;
+    border-color: transparent;
+    font-size: larger;
+}
+
+.wp-block-lazyblock-baustein .lzb-content-title{
+    display: none!important;
+}
+
+body.dragging, body.dragging * {
+    cursor: move !important;
+}
+
+.dragged {
+    position: absolute;
+    opacity: 0.5;
+    z-index: 2000;
+}
+
+ul.sortable li.placeholder {
+    position: relative;
+    min-width: 300px;
+    /** More li styles **/
+}
+ul.sortable li.placeholder:before {
+    position: absolute;
+    /** Define arrowhead **/
+}
+.sortable, .wp-block.is-selected .buttons,
+.block-editor-block-list__block.is-selected .buttons{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(50px, auto);
+    padding: 0;
+}
+
+.buttons li{
+    grid-column-end: 5;
+}
+.sortable li, .buttons li{
+    list-style: none;
+    margin: 0;
+}
+.post-card{
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    display: block;
+}
+.post-card-handle{
+    width:15px;
+    height:15px;
+    margin-left: -10px;
+    margin-top: -5px;
+    border-bottom: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    float: left;
+    background: #eee;
+    border-radius: 0 0 100% 0;
+
+}
+.post-card-handle svg{
+    margin-left: -9px;
+    position: absolute;
+    width: 24px;
+}
+
+h4.post-card-heading{
+    margin: 0 0 10px;
+    font-weight: normal!important;
+    display: block;
+}
+.post-card .tool{
+    float: right;
+}
+.wp-block .lzb-selector .tool,.wp-block .post-card-handle{
+    display: none;
+}
+.wp-block.is-selected .lzb-selector .tool, .wp-block.is-selected .post-card-handle,
+.block-editor-block-list__block.is-selected .lzb-selector .tool,
+.block-editor-block-list__block.is-selected .post-card-handle{
+    display: inline;
+}
+#TB_window {
+    left: 50%;
+    transform: translate(-50%, -50%);*/
+    max-height: 100%;
+    max-width: 90% !important;
+    margin: 0 !important;
+    top:50%!important;
+    /*width: 90% !important;*/
+}
+#TB_ajaxContent {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100%;
+    box-sizing: border-box;
+    top: 50%!important;
+}
+.filter-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(50px, auto);
+    padding: 0;
+}
+.filter-grid .search-filter{
+    width: 100%;
+}
+#search-filter-results .selectable-post{
+    text-decoration: none;
+}
+#search-filter-results .selected-post{
+    text-decoration: none;
+    color: forestgreen;
+}
+#search-filter-results .selectable-post:before{
+    content: '⬜ '
+}
+#search-filter-results .selected-post:before{
+    content: '✅ '
+}
+
+.search-filter-results-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(50px, auto);
+    padding: 0;
+}
+.search-filter-results-grid li{
+    grid-auto-rows: minmax(200px, auto);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+
+}
+#TB_ajaxContent .search-filter-results-grid p{
+    margin: 0;
+    padding: 0;
+}
+#TB_ajaxContent .entry-header{
+    font-size: 18px;
+}
+.baustein-gallery-grid{
+    display:grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(80px, auto);
+}
+.baustein-card{
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+}
+button.addbaustein{
+
+}
