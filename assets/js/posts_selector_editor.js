@@ -32,6 +32,7 @@ wp.hooks.addFilter('editor.BlockEdit', 'namespace', function (fn) {
         'lazyblock/beispielhafte-vorgehensweise',
         'lazyblock/abstrakte-beschreibung-der-methode',
         'lazyblock/ausgangssituation',
+        'lazyblock/vorbereitung',
     ];
 
     wp.blocks.getBlockTypes().forEach(function (blockType) {
