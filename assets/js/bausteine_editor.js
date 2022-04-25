@@ -9,7 +9,7 @@ const bausteine = {
     watchBlocks: ['lazyblock/bausteine','lazyblock/baustein'],
 
     init: function (){
-        bausteine.blocklistObserveFuntion(bausteine.onChange);
+        bausteine.doBlockListObserve(bausteine.onChange);
     },
 
     displayCards: function (clientId){
@@ -177,7 +177,7 @@ const bausteine = {
 
 
     },
-    blocklistObserveFuntion: function (fn){
+    doBlockListObserve: function (fn){
 
         wp.domReady( () => {
             /**
@@ -243,7 +243,7 @@ const bausteine = {
 
 
 }
-bausteine.blocklistObserveFuntion(bausteine.onChange)
+bausteine.doBlockListObserve(bausteine.onChange)
 
 
 wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange', 'bausteine', function (props) {
