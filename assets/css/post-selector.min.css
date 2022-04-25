@@ -139,22 +139,24 @@ h4.post-card-heading{
 }
 
 /*Bausteine*/
-
 .wp-block-lazyblock-bausteine .components-text-control__input{
     border-color: transparent;
     padding: 0;
 }
 .wp-block-lazyblock-bausteine .wp-block-lazyblock-baustein .lzb-content-controls > div:first-child .components-text-control__input{
-    font-size: larger;
+    font-size: 24px;
+    font-weight: bold;
+}
+.wp-block-lazyblock-bausteine .wp-block-lazyblock-baustein .lzb-content-controls > div:nth-child(2) .components-text-control__input{
+    font-size: 15px;
+    font-weight: 600;
 }
 .wp-block-lazyblock-bausteine .selected, .wp-block-lazyblock-baustein .is_selected{
     border-color: orange;
 }
-
 .wp-block-lazyblock-baustein .lzb-content-title, .wp-block-lazyblock-bausteine .lzb-content-title{
     display: none!important;
 }
-
 .bausteine-header{
     display: grid;
     grid-template-columns: 60px auto;
@@ -165,7 +167,7 @@ h4.post-card-heading{
     height: 40px;
 }
 .bausteine-header input[type="text"]{
-    font-size:29px;
+    font-size:24px;
 }
 .baustein-gallery-grid{
     display:grid;
@@ -184,6 +186,18 @@ h4.post-card-heading{
     padding: 0 10px 10px;
     list-style: none;
 
+}
+.editor-styles-wrapper .baustein-card h4{
+    font-size:24px;
+    margin: 10px 0!important;
+    padding: 0;
+    line-height:115%;
+}
+.baustein-card p{
+    font-size:15px;
+    font-weight: 600;
+    line-height:125%;
+    margin: 0;
 }
 .baustein-gallery-grid li.placeholder {
     position: relative;
@@ -218,7 +232,6 @@ button.addbaustein:hover{
     border: 1px solid red;
     box-shadow: 1px 1px 4px #aaa!important;
 }
-
 .wp-block-lazyblock-bausteine .block-editor-inserter{
     display: none!important;
 }

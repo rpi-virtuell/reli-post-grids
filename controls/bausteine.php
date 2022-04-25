@@ -4,25 +4,10 @@ class bausteine {
 
 	static function init(){
 
-		add_filter( 'lazyblock/bausteine/editor_output', array('bausteine', 'render_output'), 10, 3 );
-		add_filter( 'lazyblock/bausteine/callback',array('bausteine', 'render_callback'), 10, 3 );
-
-	}
-	static public function render_output($result, $attributes, $context ) {
-		return '<p>Custom Paragraph</p>' . $result;
-	}
+    }
 
 
-
-	static public function render_callback($result, $attributes, $context) {
-
-        BugFu::log();
-
-        BugFu::log($result);
-
-        return $result;
-	}
-	static public function editor_output() {
+    static public function editor_output() {
         ?>
 
         <?php
