@@ -243,7 +243,8 @@ const bausteine = {
 
 
 }
-bausteine.doBlockListObserve(bausteine.onChange)
+bausteine.init();
+
 
 
 wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange', 'bausteine', function (props) {
