@@ -175,8 +175,4 @@ wp.hooks.addFilter('editor.BlockEdit', 'namespace', function (fn) {
     return fn;
 });
 
-wp.hooks.addFilter('blocks.getBlockAttributes', 'namespace', function (block, attr) {
 
-    //console.log('blocks.getBlockAttributes', attr);
-    return block;
-});

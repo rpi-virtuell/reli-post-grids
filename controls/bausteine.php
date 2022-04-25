@@ -23,15 +23,9 @@ class bausteine {
         return $result;
 	}
 	static public function editor_output() {
+        ?>
 
-/*
-		*/?><!--
-		<div id="baustein-gallery">
-			<ul class="baustein-gallery-grid">
-				<button class="addbaustein">+</button>
-			</ul>
-		</div>
-		--><?php
+        <?php
 	}
 	static public function frontend_output() {
 		?>
