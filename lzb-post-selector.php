@@ -81,10 +81,10 @@ class rpi_Lzb_Plugin_Post_Selector {
 	static function blockeditor_js(){
 
 		if (!is_admin()) return;
-		wp_enqueue_script(
-			'template_handling',
-			plugin_dir_url( __FILE__ ) . '/assets/js/template_handling_editor.js'
-		);
+//		wp_enqueue_script(
+//			'template_handling',
+//			plugin_dir_url( __FILE__ ) . '/assets/js/template_handling_editor.js'
+//		);
 		wp_enqueue_script(
 			'post-selector-js',
 			plugin_dir_url( __FILE__ ) . '/assets/js/posts_selector_editor.js'

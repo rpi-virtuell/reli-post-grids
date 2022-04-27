@@ -7,7 +7,7 @@
     //kürzt die schreibweisen:
 
     const {
-        select,                 //statt www.data.select(...) => select(...)
+        select,                 //statt: www.data.select(...) jetzt nur: select(...)
         subscribe,              //...
         dispatch
     } = wp.data;
@@ -221,18 +221,17 @@
         onChange: function (props) {
 
             let curr_block = null
-
+            //aktuellen Block (curr_block) ermitteln
             if (props) {
 
                 if ('lazyblock/bausteine' == props.block) {
 
                     // 1. ClientId des Bausteine Blocks übermitteln, dessen props hier übermittelt wurden
                     let clientId = null;
-                    for (const block of select('core/block-editor').getBlocks()) {
 
-                        if (block.name != 'lazyblock/bausteine') {
-                            continue
-                        }
+                    for (const block of select('core/block-editor').getBlocks()
+                        .filter( block => block.name == 'lazyblock/baustein' ))
+                    {
 
                         if (block.attributes.blockId == props.attributes.blockId) {
                             curr_block = block;
@@ -245,6 +244,7 @@
                 curr_block = select('core/editor').getSelectedBlock();
             }
 
+            //Kacheansicht aktualisieren
             if (curr_block != null && bausteine.watchBlocks.includes(curr_block.name)) {
                 console.log('blockListChanged', curr_block);
                 if (curr_block.name == 'lazyblock/bausteine') {
@@ -277,7 +277,7 @@
             if(blockType.name=='lazyblock/baustein'){
                 blockType.parent=['lazyblock/bausteine'];
                 blockType.allowedBlocks=['core/paragraph','core/list'];
-                blockType.attributes.lock= {'insert':true, 'move': true};
+                blockType.attributes.lock = {'insert':true, 'move': true};
             }
 
             if(blockType.name=='lazyblock/bausteine'){

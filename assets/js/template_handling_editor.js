@@ -11,9 +11,8 @@ wp.hooks.addFilter('editor.BlockEdit', 'namespace', function (fn) {
 
     var allowedBlocks = [
         'core/paragraph',
+        'core/list',
         'core/image',
-        'core/html',
-        'core/freeform',
         'lazyblock/baustein',
         'lazyblock/bausteine',
         'lazyblock/alltagssituation-kinderfahrung',
@@ -56,8 +55,9 @@ wp.hooks.addFilter('editor.BlockEdit', 'namespace', function (fn) {
         for (block of blocks) {
             block.attributes.lock = {remove: true}
         }
-        var is_administrator = wp.data.select('core').canUser('create', 'users', 1);
 
+        //check admin
+        var is_administrator = wp.data.select('core').canUser('create', 'users');
 
         $('.block-editor-block-list__layout').on('click', function (e) {
 
@@ -144,8 +144,8 @@ wp.hooks.addFilter('editor.BlockEdit', 'namespace', function (fn) {
         });
 
         /**
-         * verhindern das ein Absatz auf der Obersten Dokumenteben gesetzt werden kann
-         * mit Hilde eine Document Observers, der bei Veränderung des Doms feuert
+         * verhindern, dass ein Absatz auf der obersten Dokument Ebene gesetzt werden kann
+         * mit Hilfe eines DocumentObservers, der bei Veränderung des Doms feuert
          */
         is_administrator = wp.data.select('core').canUser('create', 'users');
         $('.block-editor-block-list__layout').bind("DOMSubtreeModified", function (e) {
