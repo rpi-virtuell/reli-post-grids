@@ -48,8 +48,9 @@ class rpi_Lzb_Plugin_Post_Selector {
      */
     public static function init() {
         add_action( 'init', array( 'rpi_Lzb_Plugin_Post_Selector', 'plugins_loaded' ), 11 );
-	    add_action( 'enqueue_block_assets',array('rpi_Lzb_Plugin_Post_Selector','blockeditor_js'));
-		add_action( 'wp_ajax_filterposts', array( 'post_selector_thickbox_search_posts','ajax_handle' ));
+	    add_action( 'enqueue_block_assets',array('rpi_Lzb_Plugin_Post_Selector', 'blockeditor_engueue' ));
+		add_action( 'wp_ajax_filterposts', array( 'post_selector_thickbox_search_posts','ajax_search_posts' ));
+		add_action( 'wp_ajax_getfilter', array( 'post_selector_thickbox_search_posts','ajax_getfilter' ));
 		add_filter( 'the_title', function($title){
 			$title = $title?$title:'ohne Titel';
 			return $title;
@@ -72,22 +73,31 @@ class rpi_Lzb_Plugin_Post_Selector {
 	    load_plugin_textdomain( 'lzb-post-selector', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
         // Include control.
-        include_once self::$plugin_path . '/controls/post-selector.php';
+        //include_once self::$plugin_path . '/controls/post-selector.php';
         include_once self::$plugin_path . '/controls/post_selector_thickbox_search_posts.php';
         include_once self::$plugin_path . '/controls/bausteine.php';
 
 
     }
-	static function blockeditor_js(){
+	static function blockeditor_engueue(){
 
 		if (!is_admin()) return;
-//		wp_enqueue_script(
-//			'template_handling',
-//			plugin_dir_url( __FILE__ ) . '/assets/js/template_handling_editor.js'
-//		);
+		/*wp_enqueue_script(
+			'template_handling',
+			plugin_dir_url( __FILE__ ) . '/assets/js/template_handling_editor.js'
+		);*/
+		wp_enqueue_style(
+			'modal-posts_style',
+			plugin_dir_url( __FILE__ ) . '/assets/css/thickbox-content.css'
+		);
+		wp_enqueue_style(
+			'bausteine_style',
+			plugin_dir_url( __FILE__ ) . '/assets/css/bausteine.css'
+		);
+
 		wp_enqueue_script(
-			'post-selector-js',
-			plugin_dir_url( __FILE__ ) . '/assets/js/posts_selector_editor.js'
+			'modal-posts_selector',
+			plugin_dir_url( __FILE__ ) . '/assets/js/modal-posts-selector.js'
 		);
 		wp_enqueue_script(
 			'bausteine',
@@ -97,7 +107,6 @@ class rpi_Lzb_Plugin_Post_Selector {
 			'jquery-sortable',
 			plugin_dir_url( __FILE__ ) . '/assets/js/jquery-sortable.js'
 		);
-
 	}
 }
 

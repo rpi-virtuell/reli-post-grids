@@ -2,6 +2,13 @@
  * @author Joachim happel
  */
 
+wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', function (props) {
+
+   // console.log('bausteine.onChange: ', props);
+    //  bausteine.onChange(props);
+});
+
+
 (function($) {
 
     //kürzt die schreibweisen:
@@ -15,12 +22,15 @@
 
     const bausteine = {
 
+        moreLabel: 'mehr erfahren',
+
         //blocktypes festlegen, die auf Veränderungen überwacht werden sollen.
         watchBlocks: ['lazyblock/bausteine', 'lazyblock/baustein'],
 
         init: function () {
 
             bausteine.doBlockListObserve(bausteine.onChange);
+            window._bausteine = bausteine;
 
         },
 
@@ -61,10 +71,16 @@
                 .filter( innerblock => innerblock.name == 'lazyblock/baustein' );
             let i = 0;
             for (const brick of bricks) {
-                let imgurl;
+                let imgurl, title = brick.attributes.titel;
+
+
+                // if(brick.attributes.post_id){
+                //     title = '<a href="/?p=' + brick.attributes.post_id + '" target = "_blank">'+ brick.attributes.titel + '</a>';
+                // }
+
                 block.find(".baustein-gallery-grid").append(jQuery('' +
                     '<li class="baustein-card" id="bcard-' + brick.clientId + '" data-order="' + i + '" style="/*background-image: url(' + imgurl + ')*/">' +
-                    '<h4>' + brick.attributes.titel + '</h4>' +
+                    '<h4>' + title + '</h4>' +
                     '<p>' + brick.attributes.kurzbeschreibung + '</p>' +
                     '</li>'
                 ));
@@ -84,6 +100,8 @@
             //Trigger initialisieren
             block.find(".baustein-gallery-grid .baustein-card").off('click', bausteine.onCardClick);
             block.find(".baustein-gallery-grid .baustein-card").on('click', bausteine.onCardClick);
+            block.find(".baustein-gallery-grid .baustein-card h4").off('dblclick', bausteine.onCardDblClick);
+            block.find(".baustein-gallery-grid .baustein-card h4").on('dblclick', bausteine.onCardDblClick);
             block.find(".addbaustein").off('click touchstart', bausteine.onAddButtonClick);
             block.find(".addbaustein").on('click touchstart', bausteine.onAddButtonClick);
             //sortable klappt nur im Sesktop Mode
@@ -134,20 +152,53 @@
         onAddButtonClick: function (e) {
             //Baustein Block zu Bausteine innerBlocks hinzufügen
             let clientId = e.target.id.replace('addcard-', '');
-            let block = select('core/editor').getBlock(clientId);
-            const paragraph = wp.blocks.createBlock(
-                "core/paragraph",
-                {placeholder: 'Ausführlicher Inhalt oder tippe / um einen Block einzufügen'}
-            );
-            const newBlock = wp.blocks.createBlock("lazyblock/baustein", {
-                    titel: 'Neuer Baustein',
-                }, [paragraph]
-            );
-            let blocks = block.innerBlocks;
-            blocks.push(newBlock);
-            dispatch('core/block-editor').replaceInnerBlocks(block.clientId, blocks, true);
+            bausteine.createBaustein(clientId)
         },
 
+        createBaustein: function(parentId,title = 'Neuer Baustein',description = '', post_id = null){
+
+
+            let parentblock = select('core/editor').getBlock(parentId);
+
+            let content = '';
+            if(post_id){
+                content = '<a href="/?p='+post_id+'">'+baustein.moreLabel+'</a>';
+            }
+
+            const paragraph = wp.blocks.createBlock(
+                "core/paragraph",
+                {
+                    'placeholder': 'Ausführlicher Inhalt oder tippe / um einen Block einzufügen',
+                    'content': content,
+                },
+            );
+
+            const newBlock = wp.blocks.createBlock("lazyblock/baustein", {
+                    'titel': title,
+                    'kurzbeschreibung':description,
+                    'post_id':post_id,
+                }
+            );
+
+
+
+            let blocks = (parentblock.innerBlocks)?parentblock.innerBlocks:[];
+            blocks.push(newBlock);
+            dispatch('core/block-editor').replaceInnerBlocks(parentblock.clientId, blocks, true);
+            dispatch('core/block-editor').replaceInnerBlocks(newBlock.clientId,[paragraph], true);
+
+            //wp.data.select('core/editor').getBlockSelectionStart();
+        },
+
+        onCardDblClick: function (e) {
+            if ($(e.target).hasClass('baustein-card')) {
+                bcard = $(e.target);
+            } else {
+                bcard = $(e.target).closest('.baustein-card');
+            }
+            let block = bcard.attr('id').replace('bcard-', '#block-');
+            $(block+' .lzb-content-controls > div:first-child .components-text-control__input').focus();
+        },
         onCardClick: function (e) {
 
             let bcard;
@@ -206,9 +257,21 @@
                     const blockListChanged = newBlockList !== blockList;
                     blockList = newBlockList;
                     if (blockListChanged) {
-
                         //do if blocks changing:
-                        fn();
+                        if(null !== select('core/editor').getSelectedBlock()){
+                            fn();
+                        }else{
+                            console.log('build all bausteine');
+                            let parents = getBlockList().filter(block=>block.name=='lazyblock/bausteine');
+                            for (const child of parents){
+                                console.log('build baustein');
+                                fn(child);
+                            }
+                        }
+
+
+
+
 
                     }
 
@@ -230,7 +293,7 @@
                     let clientId = null;
 
                     for (const block of select('core/block-editor').getBlocks()
-                        .filter( block => block.name == 'lazyblock/baustein' ))
+                        .filter( b => b.name == 'lazyblock/bausteine' ))
                     {
 
                         if (block.attributes.blockId == props.attributes.blockId) {
@@ -260,15 +323,7 @@
 
     }
     bausteine.init();
-
-
-    wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange', 'bausteine', function (props) {
-
-        //console.log('bausteine.onChange: ', props);
-        bausteine.onChange(props);
-
-
-    });
+    window.createNewBaustein =  bausteine.createBaustein;
 
     //dynamisch Eigenschaften der Blocktypen neu setzen
     wp.hooks.addFilter('editor.BlockEdit', 'namespace', function (fn) {
@@ -277,17 +332,35 @@
             if(blockType.name=='lazyblock/baustein'){
                 blockType.parent=['lazyblock/bausteine'];
                 blockType.allowedBlocks=['core/paragraph','core/list'];
-                blockType.attributes.lock = {'insert':true, 'move': true};
+               // blockType.attributes.lock = {'insert':true, 'move': true};
+                blockType.attributes.lock = {'move': true};
             }
 
             if(blockType.name=='lazyblock/bausteine'){
                 console.log('changeBlockType',blockType)
                 blockType.attributes.allowedBlocks=['lazyblock/baustein'];
                 blockType.parent=[];
+
             }
+
+            // if(blockType.name=='core/paragraph'){
+            //     blockType.attributes.placeholder= 'Ausführlicher Inhalt oder tippe / um einen Block einzufügen';
+            //
+            // }
+
         });
         return fn
     });
 
 
+
+    wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', function (props) {
+
+        console.log('bausteine.onChange: ', props.block);
+        bausteine.onChange(props);
+
+        window.tb_searchbox.init();
+
+    });
 })(jQuery);
+

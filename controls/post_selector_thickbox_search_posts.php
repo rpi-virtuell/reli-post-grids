@@ -3,13 +3,15 @@
 class post_selector_thickbox_search_posts {
 
 
-	static function the_input_filter(){
+	static function ajax_getfilter(){
+        ob_start()
 		?>
-			<div id="search-filter-modal" style="display: none;">
+			<div id="search-filter-modal">
 				<form id="search-filter-form">
-                    <div class="filter-grid" style="height: 28px;">
+                    <div class="filter-grid">
                         <div style="grid-column: 3 / span 2;text-align: right;">
-                            <input id="search-filter-only-my" type="checkbox" name="my" value="1" checked><label for="search-filter-only-my">Nur in meinen Inhalten suchen</label>
+                            <input id="search-filter-only-my" type="checkbox" name="my" value="1" checked>
+                            <label for="search-filter-only-my">Nur in meinen Inhalten suchen</label>
                         </div>
                     </div>
 					<div class="filter-grid">
@@ -31,14 +33,15 @@ class post_selector_thickbox_search_posts {
                         <div class="filter-col">
                             <input class="search-filter button" type="submit" value="Suchen">
                         </div>
-
-
 					</div>
 				</form>
 				<ul id="search-filter-results" class="search-filter-results-grid"></ul>
 			</div>
 
 		<?php
+        echo ob_get_clean();
+        die();
+
 	}
 
 	static function the_tax_options($taxonomy){
@@ -54,39 +57,18 @@ class post_selector_thickbox_search_posts {
 	}
 
 
-	static function ajax_material_quickdraft_save_handle(){
-
-		$post = isset($_POST['data'])?$_POST['data']:false;
-        $args = array(
-                'post_type'=>'material',
-                'post_name'=>sanitize_title($post['title']),
-                'post_title' => $post['title'],
-	            'post_excerpt'=>$post['content'],
-	            'post_content'=>$post['content'],
-                'post_status'=>'draft',
-                'tax_input' => array('materialtype' => 5),
-                'meta_input'   => array(
-	                'rm_used_in' => get_the_ID()
-                )
-        );
-        wp_insert_post($args);
-	}
-	static function ajax_handle(){
-
-		self::editor_output_thickbox_render_posts();
-
-		wp_die();
-	}
-
 	/**
      * render postz  in the Thickbox
 	 * @return html
 	 */
-	static function editor_output_thickbox_render_posts(){
+	static function ajax_search_posts(){
 
         $post = isset($_POST['data'])?$_POST['data']:false;
 
         $collection = isset( $_POST['collection'] )?  $_POST['collection']: '';
+
+
+
 		$collection = explode(',', $collection);
 
 		if ($post){
@@ -141,7 +123,6 @@ class post_selector_thickbox_search_posts {
 	        // The Loop
 	        if ($query->have_posts()) {
 		        while ($query->have_posts()) {
-
 			        $query->the_post();
                     $selected = in_array(get_the_ID(),$collection)?'selected-post':'selectable-post';
 			        set_query_var( 'selected', $selected );
@@ -149,20 +130,14 @@ class post_selector_thickbox_search_posts {
 				        load_template($template);
 			        else
 				        load_template(dirname(__DIR__) . '/templates/post-selector-modal-loop.php', false);
-
 		        }
 	        } else {
 		        echo 'Keine Treffer';
 	        }
-
 	        // Restore original Post Data
 	        wp_reset_postdata();
+            die();
         }
-
-
-
-
-
 	}
 
 }
