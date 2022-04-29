@@ -13,6 +13,10 @@
  * @package lzb-post-selector
  */
 
+/**
+ * @TODO https://rudrastyh.com/wordpress/duplicate-post.html
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
@@ -77,6 +81,8 @@ class rpi_Lzb_Plugin_Post_Selector {
         include_once self::$plugin_path . '/controls/post_selector_thickbox_search_posts.php';
         include_once self::$plugin_path . '/controls/bausteine.php';
 
+
+		//BugFu::log(WP_Block_Type_Registry::get_instance()->get_all_registered());
 
     }
 	static function blockeditor_engueue(){

@@ -162,7 +162,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
 
             let content = '';
             if(post_id){
-                content = '<a href="/?p='+post_id+'">'+baustein.moreLabel+'</a>';
+                content = '<a href="/?p='+post_id+'">'+bausteine.moreLabel+'</a>';
             }
 
             const paragraph = wp.blocks.createBlock(
