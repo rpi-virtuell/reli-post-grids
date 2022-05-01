@@ -22,16 +22,24 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
 
     const bausteine = {
 
+        plugins :{},
+
+        bausteinTypes: [],
         moreLabel: 'mehr erfahren',
 
         //blocktypes festlegen, die auf Veränderungen überwacht werden sollen.
         watchBlocks: ['lazyblock/bausteine', 'lazyblock/baustein'],
 
         init: function () {
-
             bausteine.doBlockListObserve(bausteine.onChange);
-            window._bausteine = bausteine;
+            window.bausteine = bausteine;
 
+            bausteine.bausteinTypes.push({
+                slug:'card',
+                label:'Baustein',
+                help:'neuer Baustein',
+                fn: bausteine.onAddButtonClick
+            });
         },
 
         displayCards: function (clientId) {
@@ -91,10 +99,49 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
                 block.find('.wp-block-lazyblock-baustein').parent().slideUp();
             }
 
+            $('<div id="dialog-'+clientId+'" class="addbaustein-inserter" onclick="jQuery(this).hide();">' +
+                    '<div class="addbaustein-inserter-header">' +
+                        '<div>Inhaltsbaustein hinzufügen <span>(Neue Kachel)</span></div>'+
+                    '</div>' +
+                    '<div class="addbaustein-inserter-content">' +
+                    '</div>' +
+                '</div>')
+                .insertAfter(block.find(".baustein-gallery-grid"));
+
+            for (const type of bausteine.bausteinTypes) {
+
+                let id = 'add'+type.slug+'-'+clientId;
+
+                $('#dialog-'+clientId+' .addbaustein-inserter-content')
+                    .append('<button title="'+type.help+'" id="'+id+'" data-client="'+clientId+'">'+type.label+'</button>');
+                $('#'+id).off('click touchstart',type.fn);
+                $('#'+id).on('click touchstart',type.fn);
+            }
 
             //Insertbutton, um per Klick einen weiteren Bauststein zu Beisteine hinzuzufügen
-            $('<div class="addbaustein-wrapper"><button class="addbaustein" id="addcard-' + clientId + '">+</button></div>')
+            $('<div class="addbaustein-wrapper"><button id="btn-'+clientId+'" class="baustein-inserter">+</button></div>')
                 .insertAfter(block.find(".baustein-gallery-grid"));
+
+
+            // show a dialog box when clicking on an element
+            $('.baustein-inserter').on('click', function(e) {
+
+                const select_src = $('#dialog-'+clientId);
+                const btn = $('#btn-'+clientId);
+
+                select_src.toggle();
+
+                select_src.offset({top: btn.offset().top - select_src.height() - 10 });
+
+                if ($(window).width() < ( btn.offset().left + select_src.width() ) )
+                {
+                    select_src.offset( {left: (btn.offset().left - select_src.width())  + 30 });
+                }else{
+                    select_src.offset( {left: (btn.offset().left - 5) });
+                }
+
+
+            });
 
 
             //Trigger initialisieren
@@ -102,8 +149,8 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
             block.find(".baustein-gallery-grid .baustein-card").on('click', bausteine.onCardClick);
             block.find(".baustein-gallery-grid .baustein-card h4").off('dblclick', bausteine.onCardDblClick);
             block.find(".baustein-gallery-grid .baustein-card h4").on('dblclick', bausteine.onCardDblClick);
-            block.find(".addbaustein").off('click touchstart', bausteine.onAddButtonClick);
-            block.find(".addbaustein").on('click touchstart', bausteine.onAddButtonClick);
+            //block.find(".addbaustein").off('click touchstart', bausteine.onAddButtonClick);
+            //block.find(".addbaustein").on('click touchstart', bausteine.onAddButtonClick);
             //sortable klappt nur im Sesktop Mode
             if (!$("body").hasClass("wp-is-mobile")) {
                 block.find(".baustein-gallery-grid").sortable(bausteine.sortable);
@@ -151,7 +198,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
 
         onAddButtonClick: function (e) {
             //Baustein Block zu Bausteine innerBlocks hinzufügen
-            let clientId = e.target.id.replace('addcard-', '');
+            let clientId  = $(e.target).attr("data-client");
             bausteine.createBaustein(clientId)
         },
 
@@ -220,7 +267,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
             if (bcard.hasClass('selected')) {
                 // card ist just activ we need toogle off
                 bcard.removeClass('selected');
-                $(bcard.id.replace('bcard-', '#block-')).slideUp();
+                $(bcard.id.replace('bcard-', '#block-')).slideUp();9
                 //location.hash = '#block-'+ bausteineClientId;
                 return;
             }
@@ -231,6 +278,8 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
 
             let wpblock = $('#block-' + bausteineClientId);
 
+            console.log('wpblock', wpblock);
+
             if (wpblock) {
                 wpblock.find('.baustein-card').removeClass('selected');
                 wpblock.find('.wp-block-lazyblock-baustein').parent().slideUp();
@@ -238,6 +287,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
                 $(bausteinId).slideDown();
                 //location.hash = '#block-'+ clientId;
             }
+
 
 
         },
@@ -277,6 +327,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
 
 
                 });
+
 
             });
         },
@@ -318,12 +369,13 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
                     bausteine.displayCards(parentClientId);
                 }
             }
+
+
         }
 
-
     }
+    window.abausteine = bausteine;
     bausteine.init();
-    window.createNewBaustein =  bausteine.createBaustein;
 
     //dynamisch Eigenschaften der Blocktypen neu setzen
     wp.hooks.addFilter('editor.BlockEdit', 'namespace', function (fn) {
@@ -359,8 +411,12 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
         console.log('bausteine.onChange: ', props.block);
         bausteine.onChange(props);
 
-        window.tb_searchbox.init();
+        for(var name in bausteine.plugins){
+            bausteine.plugins[name].init();
+        }
 
     });
+
+
 })(jQuery);
 

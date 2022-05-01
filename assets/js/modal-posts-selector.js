@@ -18,28 +18,49 @@
 
         collection: [],
         block: null,
+        curr_block_clientId: null,
 
         init: function (){
+
             $(document).on('thickbox:removed', modal.onClose);
+
+            const newType = {
+                slug:'post',
+                label:'Material',
+                help: 'existierender Beitrag',
+                fn : bausteine.plugins.modal.open
+            };
+            if(bausteine.bausteinTypes.filter(t=> t.slug == newType.slug).length === 0){
+                bausteine.bausteinTypes.push(newType);
+            }
+
+
+
+            /*
+            $('#addpost-'+block.clientId).on('click',(e)=>{
+                modal.open(e);
+            });
             let blocks = getBlocks().filter(b=>b.name=='lazyblock/bausteine');
             for (const block of blocks) {
-                if($('#block-'+block.clientId + ' .addbaustein-wrapper .addpost').length ===0){
-                    $('#block-'+block.clientId + ' .addbaustein-wrapper')
-                        .append('<button id="addpost-5f9092c6-1586-4595-baf1-23783530b44b" class="addpost">#</button>');
+                if($('#block-'+block.clientId + ' .addbaustein-inserter-content .addpost').length ===0){
+                    $('#block-'+block.clientId + ' .addbaustein-inserter-content')
+                        .append('<button id="addpost-'+block.clientId+'" class="addpost">Material</button>');
 
-                    $('.addbaustein-wrapper .addpost').on('click',(e)=>{
+                    $('#addpost-'+block.clientId).on('click',(e)=>{
                         modal.open(e);
                     });
                 }
             }
+
+            */
         },
 
-        open: function (){
+        open: function (e){
+            modal.curr_block_clientId  = $(e.target).attr("data-client");
             $('.wp-block-lazyblock-baustein').parent().slideUp();
             modal.displayModalSearch();
             if(typeof tb_show == "function")
                 tb_show('Inhalte wählen', '#TB_inline?width=1000&inlineId=search-filter-modal');
-
 
         },
 
@@ -48,7 +69,11 @@
         },
         onSearch:function (e){
             e.preventDefault(); // avoid to execute the actual submit of the form.
-            modal.block = getSelectedBlock();
+            modal.block = getBlock(modal.curr_block_clientId);
+
+            if(!modal.block){
+                modal.block = getSelectedBlock();
+            }
             modal.collection = modal.get_selected_posts_in_bausteine(modal.block.clientId);
             var form = $(this);
 
@@ -107,7 +132,12 @@
 
                 console.log('Daten für neuen Baustein: ', data);
 
-                createNewBaustein(modal.block.clientId,data.title,data.description,data.post_id);
+                bausteine.createBaustein(
+                    modal.block.clientId,
+                    data.title,
+                    data.description,
+                    data.post_id
+                );
             }
         },
 
@@ -166,6 +196,7 @@
 
     };
 
-    window.tb_searchbox = modal;
+    window.bausteine.plugins.modal = modal;
+
 
 })(jQuery);

@@ -100,19 +100,27 @@ class rpi_Lzb_Plugin_Post_Selector {
 			'bausteine_style',
 			plugin_dir_url( __FILE__ ) . '/assets/css/bausteine.css'
 		);
+//		wp_enqueue_style(
+//			'zebra_dialog_style',
+//			plugin_dir_url( __FILE__ ) . '/assets/css/zebra_dialog/flat/zebra_dialog.min.css'
+//		);
 
-		wp_enqueue_script(
-			'modal-posts_selector',
-			plugin_dir_url( __FILE__ ) . '/assets/js/modal-posts-selector.js'
-		);
 		wp_enqueue_script(
 			'bausteine',
 			plugin_dir_url( __FILE__ ) . '/assets/js/bausteine_editor.js'
 		);
 		wp_enqueue_script(
+			'modal-posts_selector',
+			plugin_dir_url( __FILE__ ) . '/assets/js/modal-posts-selector.js'
+		);
+		wp_enqueue_script(
 			'jquery-sortable',
 			plugin_dir_url( __FILE__ ) . '/assets/js/jquery-sortable.js'
 		);
+//		wp_enqueue_script(
+//			'zebra_dialog',
+//			plugin_dir_url( __FILE__ ) . '/assets/js/zebra_dialog.min.js'
+//		);
 	}
 }
 
