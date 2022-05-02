@@ -34,30 +34,11 @@
                 bausteine.bausteinTypes.push(newType);
             }
 
-
-
-            /*
-            $('#addpost-'+block.clientId).on('click',(e)=>{
-                modal.open(e);
-            });
-            let blocks = getBlocks().filter(b=>b.name=='lazyblock/bausteine');
-            for (const block of blocks) {
-                if($('#block-'+block.clientId + ' .addbaustein-inserter-content .addpost').length ===0){
-                    $('#block-'+block.clientId + ' .addbaustein-inserter-content')
-                        .append('<button id="addpost-'+block.clientId+'" class="addpost">Material</button>');
-
-                    $('#addpost-'+block.clientId).on('click',(e)=>{
-                        modal.open(e);
-                    });
-                }
-            }
-
-            */
         },
 
         open: function (e){
             modal.curr_block_clientId  = $(e.target).attr("data-client");
-            $('.wp-block-lazyblock-baustein').parent().slideUp();
+            $('.wp-block-lazyblock-reli-baustein').parent().slideUp();
             modal.displayModalSearch();
             if(typeof tb_show == "function")
                 tb_show('Inhalte wählen', '#TB_inline?width=1000&inlineId=search-filter-modal');

@@ -22,22 +22,22 @@ ul.sortable li.placeholder:before {
 
 /*Bausteine*/
 
-.wp-block-lazyblock-bausteine .components-text-control__input{
+.wp-block-lazyblock-reli-bausteine .components-text-control__input{
     border-color: transparent;
     padding: 0;
 }
-.wp-block-lazyblock-bausteine .wp-block-lazyblock-baustein .lzb-content-controls > div:first-child .components-text-control__input{
+.wp-block-lazyblock-reli-bausteine .wp-block-lazyblock-reli-baustein .lzb-content-controls > div:first-child .components-text-control__input{
     font-size: 24px;
     font-weight: bold;
 }
-.wp-block-lazyblock-bausteine .wp-block-lazyblock-baustein .lzb-content-controls > div:nth-child(2) .components-text-control__input{
+.wp-block-lazyblock-reli-bausteine .wp-block-lazyblock-reli-baustein .lzb-content-controls > div:nth-child(2) .components-text-control__input{
     font-size: 15px;
     font-weight: 600;
 }
-.wp-block-lazyblock-bausteine .selected, .wp-block-lazyblock-baustein .is_selected{
+.wp-block-lazyblock-reli-bausteine .selected, .wp-block-lazyblock-reli-baustein .is_selected{
     border-color: orange;
 }
-.wp-block-lazyblock-baustein .lzb-content-title, .wp-block-lazyblock-bausteine .lzb-content-title{
+.wp-block-lazyblock-reli-baustein .lzb-content-title, .wp-block-lazyblock-reli-bausteine .lzb-content-title{
     display: none!important;
 }
 .bausteine-header{
@@ -115,7 +115,7 @@ button.baustein-inserter:hover{
     border: 1px solid red;
     box-shadow: 1px 1px 4px #aaa!important;
 }
-.wp-block-lazyblock-bausteine .block-editor-inserter{
+.wp-block-lazyblock-reli-bausteine .block-editor-inserter{
     display: none!important;
 }
 .addbaustein-inserter{

@@ -28,7 +28,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
         moreLabel: 'mehr erfahren',
 
         //blocktypes festlegen, die auf Veränderungen überwacht werden sollen.
-        watchBlocks: ['lazyblock/bausteine', 'lazyblock/baustein'],
+        watchBlocks: ['lazyblock/reli-bausteine', 'lazyblock/reli-baustein'],
 
         init: function () {
             bausteine.doBlockListObserve(bausteine.onChange);
@@ -76,7 +76,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
 
             //Kacheln aus den Blocks innerhalb der Bausteineblocks generieren und jeweils im ul.baustein-gallery-grid anhängen (append)
             let bricks = select('core/editor').getBlock(clientId).innerBlocks
-                .filter( innerblock => innerblock.name == 'lazyblock/baustein' );
+                .filter( innerblock => innerblock.name == 'lazyblock/reli-baustein' );
             let i = 0;
             for (const brick of bricks) {
                 let imgurl, title = brick.attributes.titel;
@@ -96,7 +96,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
             //beim neu Laden der Seite ist kein Block activ ausgewählt
             if (select('core/block-editor').getSelectedBlock() === null) {
                 //alle sichtbaren baustein blocks unsichtbar verstecken: slideup
-                block.find('.wp-block-lazyblock-baustein').parent().slideUp();
+                block.find('.wp-block-lazyblock-reli-baustein').parent().slideUp();
             }
 
             $('<div id="dialog-'+clientId+'" class="addbaustein-inserter" onclick="jQuery(this).hide();">' +
@@ -183,7 +183,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
                 console.log('innerBlockIds', innerBlockIds);
                 for (const id of innerBlockIds) {
                     let innerBlock = select('core/block-editor').getBlock(id);
-                    if(innerBlock != null && innerBlock.name=="lazyblock/baustein"){
+                    if(innerBlock != null && innerBlock.name=="lazyblock/reli-baustein"){
                         innerBlocks.push(innerBlock);
                     }
                 }
@@ -220,7 +220,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
                 },
             );
 
-            const newBlock = wp.blocks.createBlock("lazyblock/baustein", {
+            const newBlock = wp.blocks.createBlock("lazyblock/reli-baustein", {
                     'titel': title,
                     'kurzbeschreibung':description,
                     'post_id':post_id,
@@ -282,7 +282,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
 
             if (wpblock) {
                 wpblock.find('.baustein-card').removeClass('selected');
-                wpblock.find('.wp-block-lazyblock-baustein').parent().slideUp();
+                wpblock.find('.wp-block-lazyblock-reli-baustein').parent().slideUp();
                 bcard.addClass('selected');
                 $(bausteinId).slideDown();
                 //location.hash = '#block-'+ clientId;
@@ -312,7 +312,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
                             fn();
                         }else{
                             console.log('build all bausteine');
-                            let parents = getBlockList().filter(block=>block.name=='lazyblock/bausteine');
+                            let parents = getBlockList().filter(block=>block.name=='lazyblock/reli-bausteine');
                             for (const child of parents){
                                 console.log('build baustein');
                                 fn(child);
@@ -338,13 +338,13 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
             //aktuellen Block (curr_block) ermitteln
             if (props) {
 
-                if ('lazyblock/bausteine' == props.block) {
+                if ('lazyblock/reli-bausteine' == props.block) {
 
                     // 1. ClientId des Bausteine Blocks übermitteln, dessen props hier übermittelt wurden
                     let clientId = null;
 
                     for (const block of select('core/block-editor').getBlocks()
-                        .filter( b => b.name == 'lazyblock/bausteine' ))
+                        .filter( b => b.name == 'lazyblock/reli-bausteine' ))
                     {
 
                         if (block.attributes.blockId == props.attributes.blockId) {
@@ -361,9 +361,9 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
             //Kacheansicht aktualisieren
             if (curr_block != null && bausteine.watchBlocks.includes(curr_block.name)) {
                 console.log('blockListChanged', curr_block);
-                if (curr_block.name == 'lazyblock/bausteine') {
+                if (curr_block.name == 'lazyblock/reli-bausteine') {
                     bausteine.displayCards(curr_block.clientId);
-                } else if (curr_block.name == 'lazyblock/baustein') {
+                } else if (curr_block.name == 'lazyblock/reli-baustein') {
                     //parent ermitteln
                     let parentClientId = select('core/block-editor').getBlockHierarchyRootClientId(curr_block.clientId);
                     bausteine.displayCards(parentClientId);
@@ -381,16 +381,16 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
     wp.hooks.addFilter('editor.BlockEdit', 'namespace', function (fn) {
         wp.blocks.getBlockTypes().forEach(function (blockType) {
 
-            if(blockType.name=='lazyblock/baustein'){
-                blockType.parent=['lazyblock/bausteine'];
+            if(blockType.name=='lazyblock/reli-baustein'){
+                blockType.parent=['lazyblock/reli-bausteine'];
                 blockType.allowedBlocks=['core/paragraph','core/list'];
                // blockType.attributes.lock = {'insert':true, 'move': true};
                 blockType.attributes.lock = {'move': true};
             }
 
-            if(blockType.name=='lazyblock/bausteine'){
+            if(blockType.name=='lazyblock/reli-bausteine'){
                 console.log('changeBlockType',blockType)
-                blockType.attributes.allowedBlocks=['lazyblock/baustein'];
+                blockType.attributes.allowedBlocks=['lazyblock/reli-baustein'];
                 blockType.parent=[];
 
             }

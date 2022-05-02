@@ -3,7 +3,7 @@
  * Plugin Name:  Lazy Blocks: Post Selector Control
  * Description:  Select WP Posts and put them into a grid
  * Plugin URI:   PLUGIN_URL
- * Version:      1.0.0
+ * Version:      0.2.0
  * Author:       rpi-virtuell
  * Author URI:   https://rpi-virtuell.de
  * License:      GPLv2 or later
