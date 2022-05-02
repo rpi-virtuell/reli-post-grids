@@ -1,0 +1,144 @@
+/* drag & drop */
+body.dragging, body.dragging * {
+    cursor: move !important;
+}
+
+.dragged {
+    position: absolute;
+    opacity: 0.7;
+    z-index: 2000;
+    background-color: lightgoldenrodyellow;
+}
+
+ul.sortable li.placeholder {
+    position: relative;
+    min-width: 300px;
+    /** More li styles **/
+}
+ul.sortable li.placeholder:before {
+    position: absolute;
+    /** Define arrowhead **/
+}
+
+/*Bausteine*/
+
+.wp-block-lazyblock-bausteine .components-text-control__input{
+    border-color: transparent;
+    padding: 0;
+}
+.wp-block-lazyblock-bausteine .wp-block-lazyblock-baustein .lzb-content-controls > div:first-child .components-text-control__input{
+    font-size: 24px;
+    font-weight: bold;
+}
+.wp-block-lazyblock-bausteine .wp-block-lazyblock-baustein .lzb-content-controls > div:nth-child(2) .components-text-control__input{
+    font-size: 15px;
+    font-weight: 600;
+}
+.wp-block-lazyblock-bausteine .selected, .wp-block-lazyblock-baustein .is_selected{
+    border-color: orange;
+}
+.wp-block-lazyblock-baustein .lzb-content-title, .wp-block-lazyblock-bausteine .lzb-content-title{
+    display: none!important;
+}
+.bausteine-header{
+    display: grid;
+    grid-template-columns: 60px auto;
+    grid-auto-rows: minmax(40px, auto);
+}
+.bausteine-header .bausteine-icon svg{
+    width: 40px;
+    height: 40px;
+}
+.bausteine-header input[type="text"]{
+    font-size:24px;
+}
+.baustein-gallery-grid{
+    display:grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(100px, auto);
+    margin: 0;
+    padding: 0;
+}
+.wp-is-mobile .baustein-gallery-grid, .vaa-mobile .baustein-gallery-grid{
+    grid-template-columns: repeat(1, 1fr);
+}
+.baustein-card{
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 0 10px 10px;
+    list-style: none;
+
+}
+.editor-styles-wrapper .baustein-card h4{
+    font-size:24px;
+    margin: 10px 0!important;
+    padding: 0;
+    line-height:115%;
+}
+.baustein-card p{
+    font-size:15px;
+    font-weight: 600;
+    line-height:125%;
+    margin: 0;
+}
+.baustein-gallery-grid li.placeholder {
+    position: relative;
+    min-width: 200px;
+    list-style: none;
+    /** More li styles **/
+}
+baustein-gallery-grid li.placeholder:before {
+    position: absolute;
+    /** Define arrowhead **/
+}
+.addbaustein-wrapper{
+    width: 100%;
+    text-align: right;
+    display: block;
+    margin-top: 10px;
+}
+button.baustein-inserter{
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 82%;
+    display: inline;
+    color: #ddd;
+    border: 0;
+    background-color: black;
+    padding: 0 4px 5px;
+}
+button.baustein-inserter:hover{
+    background-color: #006BA1;
+}
+.baustein-card:hover{
+    border: 1px solid red;
+    box-shadow: 1px 1px 4px #aaa!important;
+}
+.wp-block-lazyblock-bausteine .block-editor-inserter{
+    display: none!important;
+}
+.addbaustein-inserter{
+    display: none;
+    width:250px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 3px #555;
+    background-color: #fff;
+    position: absolute;
+}
+.addbaustein-inserter-content{
+    margin: 10px;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(1, 1fr);
+}
+.addbaustein-inserter-header{
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+    line-height: 100%;
+    display: inline-block;
+}
+.addbaustein-inserter-header div{
+    margin: 10px;
+}

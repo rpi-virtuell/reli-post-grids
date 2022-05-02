@@ -88,10 +88,7 @@ class rpi_Lzb_Plugin_Post_Selector {
 	static function blockeditor_engueue(){
 
 		if (!is_admin()) return;
-		/*wp_enqueue_script(
-			'template_handling',
-			plugin_dir_url( __FILE__ ) . '/assets/js/template_handling_editor.js'
-		);*/
+
 		wp_enqueue_style(
 			'modal-posts_style',
 			plugin_dir_url( __FILE__ ) . '/assets/css/thickbox-content.css'
@@ -100,10 +97,6 @@ class rpi_Lzb_Plugin_Post_Selector {
 			'bausteine_style',
 			plugin_dir_url( __FILE__ ) . '/assets/css/bausteine.css'
 		);
-//		wp_enqueue_style(
-//			'zebra_dialog_style',
-//			plugin_dir_url( __FILE__ ) . '/assets/css/zebra_dialog/flat/zebra_dialog.min.css'
-//		);
 
 		wp_enqueue_script(
 			'bausteine',
@@ -117,10 +110,6 @@ class rpi_Lzb_Plugin_Post_Selector {
 			'jquery-sortable',
 			plugin_dir_url( __FILE__ ) . '/assets/js/jquery-sortable.js'
 		);
-//		wp_enqueue_script(
-//			'zebra_dialog',
-//			plugin_dir_url( __FILE__ ) . '/assets/js/zebra_dialog.min.js'
-//		);
 	}
 }
 
