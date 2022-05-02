@@ -23,7 +23,7 @@ class bausteine {
                 display:grid;
                 grid-gap: 10px;
                 grid-template-columns: repeat(3, 1fr);
-                grid-auto-rows: minmax(80px, auto);
+                grid-auto-rows: minmax(40px, auto);
                 margin: 0;
                 transition: all .5s linear;
 
@@ -36,7 +36,7 @@ class bausteine {
                 text-align: right;
             }
             .scaled .baustein-gallery-grid{
-                grid-template-columns: repeat(6, 1fr);
+                /*grid-template-columns: repeat(6, 1fr);*/
                 width: 100%;
                 transition: all .5s linear;
             }
@@ -45,7 +45,7 @@ class bausteine {
             }
 
             .scaled .baustein-gallery-grid h4{
-                font-size: 13px;
+                font-size: 20px;
                 transition: all .5s linear;
             }
             .scaled .baustein-gallery-grid .baustein-card{
@@ -70,6 +70,7 @@ class bausteine {
             jQuery(document).ready(($)=>{
                 $('.showroom').slideUp();
                 $('.baustein-card').on('click', (e)=>{
+                    $('.showroom').fadeOut();
                     if($(e.target).hasClass('baustein-card')){
                         card = $(e.target);
                     }else{
@@ -81,6 +82,7 @@ class bausteine {
                     console.log('showroom',showroom);
                     showroom.html(card.find('.baustein-inner-content').html());
                     setTimeout(()=>{showroom.slideDown();},500);
+                    showroom.fadeIn();
 
 
                 })
