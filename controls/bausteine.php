@@ -67,7 +67,7 @@ class bausteine {
 
             .scaled .baustein-card{
                 transition: all .5s linear;
-                height: 50px;
+                /*height: 50px;*/
                 overflow: hidden;
             }
             .scaled .baustein-footer{
@@ -202,14 +202,15 @@ class baustein {
             .baustein-article-header{
                 display:grid;
                 grid-template-columns: 60px auto;
-                grid-auto-rows: minmax(30px, auto);
+                grid-auto-rows: minmax(24px, auto);
                 margin: 0px;
+                border-bottom: 1px solid #ddd;
             }
             .baustein-article-header .block-title{
-                font-size: 30px;
+                font-size: 24px;
             }
             .baustein-article-header .baustein-icon{
-                width: 40px;
+                width: 30px;
                 margin-top: 3px;
             }
             .baustein-article-header .baustein-icon svg {
@@ -218,6 +219,23 @@ class baustein {
             }
             .baustein-inner-content{
                 display: none;
+            }
+            .strong{
+                font-weight: bold;
+            }
+            @media only screen and (max-width: 700px) {
+                .baustein-card :not(:first-child) {
+                    display: none;
+                }
+                .baustein-gallery-grid{
+                    grid-template-columns: repeat(2, 1fr);
+                }
+                .baustein-card .card-title{
+                    font-size: 18px;
+                }
+                .scaled.baustein-gallery .card-title{
+                    font-size: 13px;
+                }
             }
         </style>
         <div class="baustein-card <?php echo $attributes['post_id']?'post':'';?>" id="bcard-<?php echo $attributes['blockId'] ?>" data-block="<?php echo $attributes['blockId'] ?>">
@@ -231,7 +249,7 @@ class baustein {
                         </div>
                         <h4 class="block-title"><?php echo $attributes['titel'];?></h4>
                     </div>
-                    <p><?php echo $attributes['kurzbeschreibung'];?></p>
+                    <p class="strong"><?php echo $attributes['kurzbeschreibung'];?></p>
                     <?php echo $attributes['content'];?>
                 </div>
             </div>
