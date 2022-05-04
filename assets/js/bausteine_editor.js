@@ -53,14 +53,16 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
             titleInputControl.addClass('bausteine-header');
 
             //falls vorhanden Block Icon löschen
-            block.find('.bausteine-icon').remove();
-            var icon = $('<div class="bausteine-icon"><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 0 24 24" width="40px" fill="#000000"><g><rect fill="none" height="24" width="24"/></g><g><g><g><path d="M3,3v8h8V3H3z M9,9H5V5h4V9z M3,13v8h8v-8H3z M9,19H5v-4h4V19z M13,3v8h8V3H13z M19,9h-4V5h4V9z M13,13v8h8v-8H13z M19,19h-4v-4h4V19z"/></g></g></g></svg></div>');
+            //block.find('.bausteine-icon').remove();
+            //var icon = $('<div class="bausteine-icon"><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 0 24 24" width="40px" fill="#000000"><g><rect fill="none" height="24" width="24"/></g><g><g><g><path d="M3,3v8h8V3H3z M9,9H5V5h4V9z M3,13v8h8v-8H3z M9,19H5v-4h4V19z M13,3v8h8V3H13z M19,9h-4V5h4V9z M13,13v8h8v-8H13z M19,19h-4v-4h4V19z"/></g></g></g></svg></div>');
             //Block Icon vor Inputfeld einfügen
-            titleInputControl.prepend(icon);
+            //titleInputControl.prepend(icon);
 
             //falls bereits vorhanden galery löschen
             block.find(' .baustein-gallery').remove();
+            block.find(' .bausteine-leitfrage').remove();
 
+            $('<span class="components-base-control__label bausteine-leitfrage">Welche Elemente/Baustein würdest du einsetzen?</span>').insertAfter(titleInputControl.find('input').parent());
 
             //Kalchel HTML-Container aufbauen
             var gallery = $(
@@ -81,6 +83,9 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
             for (const brick of bricks) {
                 let imgurl, title = brick.attributes.titel;
 
+                if(!title){
+                    title = 'Noch keine Überschrift'
+                }
 
                 // if(brick.attributes.post_id){
                 //     title = '<a href="/?p=' + brick.attributes.post_id + '" target = "_blank">'+ brick.attributes.titel + '</a>';
@@ -202,7 +207,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
             bausteine.createBaustein(clientId)
         },
 
-        createBaustein: function(parentId,title = 'Neuer Baustein',description = '', post_id = null){
+        createBaustein: function(parentId,title = '',description = '', post_id = null){
 
 
             let parentblock = select('core/editor').getBlock(parentId);
@@ -223,7 +228,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
             const newBlock = wp.blocks.createBlock("lazyblock/reli-baustein", {
                     'titel': title,
                     'kurzbeschreibung':description,
-                    'post_id':post_id,
+                    'post_id':post_id
                 }
             );
 
@@ -233,6 +238,8 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
             blocks.push(newBlock);
             dispatch('core/block-editor').replaceInnerBlocks(parentblock.clientId, blocks, true);
             dispatch('core/block-editor').replaceInnerBlocks(newBlock.clientId,[paragraph], true);
+
+            $('#block-'+parentId+' .lzb-content-controls > div:first-child .components-text-control__input').focus();
 
             //wp.data.select('core/editor').getBlockSelectionStart();
         },
@@ -374,7 +381,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
         }
 
     }
-    window.abausteine = bausteine;
+    window.bausteine = bausteine;
     bausteine.init();
 
     //dynamisch Eigenschaften der Blocktypen neu setzen
@@ -391,7 +398,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
             if(blockType.name=='lazyblock/reli-bausteine'){
                 console.log('changeBlockType',blockType)
                 blockType.attributes.allowedBlocks=['lazyblock/reli-baustein'];
-                blockType.parent=[];
+                //blockType.parent=[];
 
             }
 
@@ -406,16 +413,18 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
 
 
 
+
     wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', function (props) {
 
         console.log('bausteine.onChange: ', props.block);
         bausteine.onChange(props);
 
         for(var name in bausteine.plugins){
-            bausteine.plugins[name].init();
+           bausteine.plugins[name].init();
         }
 
     });
+
 
 
 })(jQuery);

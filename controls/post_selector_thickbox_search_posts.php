@@ -111,7 +111,7 @@ class post_selector_thickbox_search_posts {
 	        $args=array(
 		        'tax_query'=> $tax_query ,
 		        'post_status'=>'publish',
-		        'post_type'=>'post',
+		        'post_type'=>'materialien',
 		        's'=>$search,
 		        'author'=>$author
 	        );

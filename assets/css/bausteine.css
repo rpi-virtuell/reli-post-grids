@@ -3,6 +3,17 @@ body.dragging, body.dragging * {
     cursor: move !important;
 }
 
+.components-text-control__input,.components-text-control__input:focus{
+    border: 0!important;
+    border-color:transparent!important;
+    box-shadow:none!important;
+    outline: 0!important;
+}
+.components-base-control__label{
+    color: orangered;
+
+}
+
 .dragged {
     position: absolute;
     opacity: 0.7;
@@ -21,25 +32,7 @@ ul.sortable li.placeholder:before {
 }
 
 /*Bausteine*/
-
-.wp-block-lazyblock-reli-bausteine .components-text-control__input{
-    border-color: transparent;
-    padding: 0;
-}
-.wp-block-lazyblock-reli-bausteine .wp-block-lazyblock-reli-baustein .lzb-content-controls > div:first-child .components-text-control__input{
-    font-size: 24px;
-    font-weight: bold;
-}
-.wp-block-lazyblock-reli-bausteine .wp-block-lazyblock-reli-baustein .lzb-content-controls > div:nth-child(2) .components-text-control__input{
-    font-size: 15px;
-    font-weight: 600;
-}
-.wp-block-lazyblock-reli-bausteine .selected, .wp-block-lazyblock-reli-baustein .is_selected{
-    border-color: orange;
-}
-.wp-block-lazyblock-reli-baustein .lzb-content-title, .wp-block-lazyblock-reli-bausteine .lzb-content-title{
-    display: none!important;
-}
+/*
 .bausteine-header{
     display: grid;
     grid-template-columns: 60px auto;
@@ -49,6 +42,36 @@ ul.sortable li.placeholder:before {
     width: 40px;
     height: 40px;
 }
+.wp-block-lazyblock-reli-bausteine .wp-block-lazyblock-reli-baustein .lzb-content-controls > div:first-child .components-text-control__input{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+*/
+.wp-block-lazyblock-reli-baustein{
+    border: 1px solid orange;
+    border-radius: 5px;
+}
+
+.wp-block-lazyblock-reli-bausteine .components-text-control__input{
+    border-color: transparent;
+    padding: 0;
+}
+.wp-block-lazyblock-reli-baustein .lzb-content-title, .wp-block-lazyblock-reli-bausteine .lzb-content-title{
+    display: none!important;
+}
+.wp-block-lazyblock-reli-bausteine .wp-block-lazyblock-reli-baustein .lzb-content-controls > div:nth-child(1){
+    border-bottom: 1px solid #ddd;
+}
+
+.wp-block-lazyblock-reli-bausteine .wp-block-lazyblock-reli-baustein .lzb-content-controls > div:nth-child(2) .components-text-control__input{
+    font-size: 15px;
+    font-weight: 600;
+}
+.wp-block-lazyblock-reli-bausteine .selected, .wp-block-lazyblock-reli-baustein .is_selected{
+    border-color: orange;
+}
+
 .bausteine-header input[type="text"]{
     font-size:24px;
 }
@@ -68,13 +91,15 @@ ul.sortable li.placeholder:before {
     border-radius: 5px;
     padding: 0 10px 10px;
     list-style: none;
-
+    cursor: pointer;
 }
-.editor-styles-wrapper .baustein-card h4{
-    font-size:24px;
+.baustein-card h4{
+    font-size:24px!important;
     margin: 10px 0!important;
     padding: 0;
     line-height:115%;
+    font-weight: normal!important;
+
 }
 .baustein-card p{
     font-size:15px;
