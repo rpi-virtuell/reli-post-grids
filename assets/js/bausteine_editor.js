@@ -325,17 +325,12 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
                                 fn(child);
                             }
                         }
-
-
-
-
-
                     }
-
-
                 });
-
-
+                //blockeditor ui aufräumen;
+                setTimeout(()=>{
+                    $('.interface-pinned-items button:nth-child(2)').remove();
+                    },2000);
             });
         },
 

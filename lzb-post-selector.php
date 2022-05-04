@@ -59,7 +59,26 @@ class rpi_Lzb_Plugin_Post_Selector {
 			$title = $title?$title:'ohne Titel';
 			return $title;
 		} );
-	    //bausteine::init();
+	    self::addblocks();
+
+	    function filter_block_editor_settings_when_post_provided( $editor_settings, $editor_context ) {
+
+			//var_dump($editor_settings);die();
+
+		    if ( ! empty( $editor_context->post ) ) {
+			    $editor_settings['maxUploadFileSize'] = 12345;
+		    }
+		    return $editor_settings;
+	    }
+
+	    add_filter( 'block_editor_settings_all', 'filter_block_editor_settings_when_post_provided', 10, 2 );
+
+		/**
+		 * TODO check $data before publish, send  infos to team, set post_status to new preview status
+		 */
+	    add_filter( 'wp_insert_post_data', function ($data, $postarr, $unsanitized_postarr){
+			return $data;
+	    },10,3 );
     }
 
     /**
@@ -110,6 +129,259 @@ class rpi_Lzb_Plugin_Post_Selector {
 			'jquery-sortable',
 			plugin_dir_url( __FILE__ ) . '/assets/js/jquery-sortable.js'
 		);
+	}
+
+	static function addblocks(){
+		if ( function_exists( 'lazyblocks' ) ) :
+
+			lazyblocks()->add_block( array(
+				'id' => 799,
+				'title' => 'Baustein',
+				'icon' => '<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g><rect fill="none" height="24" width="24"/><g><path d="M19,5v14H5V5H19 M19,3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3L19,3z"/></g><path d="M14,17H7v-2h7V17z M17,13H7v-2h10V13z M17,9H7V7h10V9z"/></g></svg>',
+				'keywords' => array(
+				),
+				'slug' => 'lazyblock/reli-baustein',
+				'description' => '',
+				'category' => 'leitfragen',
+				'category_label' => 'Leitfragen',
+				'supports' => array(
+					'customClassName' => true,
+					'anchor' => false,
+					'align' => array(
+						0 => 'wide',
+						1 => 'full',
+					),
+					'html' => false,
+					'multiple' => true,
+					'inserter' => false,
+				),
+				'ghostkit' => array(
+					'supports' => array(
+						'spacings' => false,
+						'display' => false,
+						'scrollReveal' => false,
+						'frame' => false,
+						'customCSS' => false,
+					),
+				),
+				'controls' => array(
+					'control_a588984bfe' => array(
+						'type' => 'text',
+						'name' => 'titel',
+						'default' => '',
+						'label' => '',
+						'help' => '',
+						'child_of' => '',
+						'placement' => 'content',
+						'width' => '100',
+						'hide_if_not_selected' => 'false',
+						'save_in_meta' => 'false',
+						'save_in_meta_name' => '',
+						'required' => 'false',
+						'placeholder' => 'Überschrift',
+						'characters_limit' => '',
+					),
+					'control_3f2bf740e0' => array(
+						'type' => 'text',
+						'name' => 'kurzbeschreibung',
+						'default' => '',
+						'label' => '',
+						'help' => '',
+						'child_of' => '',
+						'placement' => 'content',
+						'width' => '100',
+						'hide_if_not_selected' => 'false',
+						'save_in_meta' => 'false',
+						'save_in_meta_name' => '',
+						'required' => 'false',
+						'placeholder' => 'Kurzbeschreibung',
+						'characters_limit' => '',
+					),
+					'control_65a965452b' => array(
+						'type' => 'image',
+						'name' => 'thumbnail',
+						'default' => '',
+						'label' => 'Beitragsbild für den Baustein',
+						'help' => '',
+						'child_of' => '',
+						'placement' => 'inspector',
+						'width' => '100',
+						'hide_if_not_selected' => 'false',
+						'save_in_meta' => 'false',
+						'save_in_meta_name' => '',
+						'required' => 'false',
+						'preview_size' => 'medium',
+						'placeholder' => '',
+						'characters_limit' => '',
+					),
+					'control_26aa5a43af' => array(
+						'type' => 'inner_blocks',
+						'name' => 'content',
+						'default' => '',
+						'label' => '',
+						'help' => '',
+						'child_of' => '',
+						'placement' => 'content',
+						'width' => '100',
+						'hide_if_not_selected' => 'false',
+						'save_in_meta' => 'false',
+						'save_in_meta_name' => '',
+						'required' => 'false',
+						'placeholder' => '',
+						'characters_limit' => '',
+					),
+					'control_a77b0a42c9' => array(
+						'type' => 'number',
+						'name' => 'post_id',
+						'default' => '',
+						'label' => '',
+						'help' => '',
+						'child_of' => '',
+						'placement' => 'inspector',
+						'width' => '100',
+						'hide_if_not_selected' => 'false',
+						'save_in_meta' => 'false',
+						'save_in_meta_name' => '',
+						'required' => 'false',
+						'min' => '',
+						'max' => '',
+						'step' => '',
+						'placeholder' => 'Post_ID eine Beitrags (automatisch)',
+						'characters_limit' => '',
+					),
+				),
+				'code' => array(
+					'output_method' => 'php',
+					'editor_html' => '',
+					'editor_callback' => '',
+					'editor_css' => '',
+					'frontend_html' => '<?php baustein::frontend_output($attributes);',
+					'frontend_callback' => '',
+					'frontend_css' => '',
+					'show_preview' => 'always',
+					'single_output' => false,
+				),
+				'condition' => array(
+				),
+			) );
+
+			lazyblocks()->add_block( array(
+				'id' => 797,
+				'title' => 'Bausteine',
+				'icon' => '<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g><rect fill="none" height="24" width="24"/></g><g><g><g><path d="M3,3v8h8V3H3z M9,9H5V5h4V9z M3,13v8h8v-8H3z M9,19H5v-4h4V19z M13,3v8h8V3H13z M19,9h-4V5h4V9z M13,13v8h8v-8H13z M19,19h-4v-4h4V19z"/></g></g></g></svg>',
+				'keywords' => array(
+				),
+				'slug' => 'lazyblock/reli-bausteine',
+				'description' => '',
+				'category' => 'leitfragen',
+				'category_label' => 'Leitfragen',
+				'supports' => array(
+					'customClassName' => true,
+					'anchor' => false,
+					'align' => array(
+						0 => 'wide',
+						1 => 'full',
+					),
+					'html' => false,
+					'multiple' => true,
+					'inserter' => true,
+				),
+				'ghostkit' => array(
+					'supports' => array(
+						'spacings' => false,
+						'display' => false,
+						'scrollReveal' => false,
+						'frame' => false,
+						'customCSS' => false,
+					),
+				),
+				'controls' => array(
+					'control_0c19e4441b' => array(
+						'type' => 'text',
+						'name' => 'sammlung',
+						'default' => 'Sammlung',
+						'label' => '',
+						'help' => '',
+						'child_of' => '',
+						'placement' => 'content',
+						'width' => '100',
+						'hide_if_not_selected' => 'false',
+						'save_in_meta' => 'false',
+						'save_in_meta_name' => '',
+						'required' => 'false',
+						'placeholder' => 'Bausteine',
+						'characters_limit' => '',
+					),
+					'control_ca8a2e458f' => array(
+						'type' => 'inner_blocks',
+						'name' => 'bausteine',
+						'default' => '',
+						'label' => '',
+						'help' => '',
+						'child_of' => '',
+						'placement' => 'content',
+						'width' => '100',
+						'hide_if_not_selected' => 'false',
+						'save_in_meta' => 'false',
+						'save_in_meta_name' => '',
+						'required' => 'false',
+						'placeholder' => '',
+						'characters_limit' => '',
+					),
+					'control_96083c441e' => array(
+						'type' => 'range',
+						'name' => 'columns',
+						'default' => '3',
+						'label' => 'Anzahl der Spalten',
+						'help' => '',
+						'child_of' => '',
+						'placement' => 'inspector',
+						'width' => '100',
+						'hide_if_not_selected' => 'false',
+						'save_in_meta' => 'false',
+						'save_in_meta_name' => '',
+						'required' => 'false',
+						'min' => '1',
+						'max' => '5',
+						'step' => '1',
+						'placeholder' => '',
+						'characters_limit' => '',
+					),
+					'control_c119314698' => array(
+						'type' => 'toggle',
+						'name' => 'collaborative',
+						'default' => '',
+						'label' => 'Kollaborativ',
+						'help' => 'Angemldete Nutzerinnen zu der Sammlung eigene Ideen hinzufügen.',
+						'child_of' => '',
+						'placement' => 'inspector',
+						'width' => '100',
+						'hide_if_not_selected' => 'false',
+						'save_in_meta' => 'false',
+						'save_in_meta_name' => '',
+						'required' => 'false',
+						'checked' => 'false',
+						'alongside_text' => '',
+						'placeholder' => '',
+						'characters_limit' => '',
+					),
+				),
+				'code' => array(
+					'output_method' => 'php',
+					'editor_html' => '<?php   bausteine::editor_output();',
+					'editor_callback' => '',
+					'editor_css' => '',
+					'frontend_html' => '<?php  bausteine::frontend_output($attributes);',
+					'frontend_callback' => '',
+					'frontend_css' => '',
+					'show_preview' => 'always',
+					'single_output' => false,
+				),
+				'condition' => array(
+				),
+			) );
+
+		endif;
 	}
 }
 
