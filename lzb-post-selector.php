@@ -61,6 +61,7 @@ class rpi_Lzb_Plugin_Post_Selector {
 		} );
 	    self::addblocks();
 
+		/*
 	    function filter_block_editor_settings_when_post_provided( $editor_settings, $editor_context ) {
 
 			//var_dump($editor_settings);die();
@@ -72,13 +73,15 @@ class rpi_Lzb_Plugin_Post_Selector {
 	    }
 
 	    add_filter( 'block_editor_settings_all', 'filter_block_editor_settings_when_post_provided', 10, 2 );
-
+		*/
 		/**
 		 * TODO check $data before publish, send  infos to team, set post_status to new preview status
 		 */
-	    add_filter( 'wp_insert_post_data', function ($data, $postarr, $unsanitized_postarr){
+	    /*
+		add_filter( 'wp_insert_post_data', function ($data, $postarr, $unsanitized_postarr){
 			return $data;
 	    },10,3 );
+	    */
     }
 
     /**
@@ -231,7 +234,7 @@ class rpi_Lzb_Plugin_Post_Selector {
 						'characters_limit' => '',
 					),
 					'control_a77b0a42c9' => array(
-						'type' => 'number',
+						'type' => 'hidden',
 						'name' => 'post_id',
 						'default' => '',
 						'label' => '',
@@ -248,6 +251,7 @@ class rpi_Lzb_Plugin_Post_Selector {
 						'step' => '',
 						'placeholder' => 'Post_ID eine Beitrags (automatisch)',
 						'characters_limit' => '',
+
 					),
 				),
 				'code' => array(
@@ -283,7 +287,7 @@ class rpi_Lzb_Plugin_Post_Selector {
 						1 => 'full',
 					),
 					'html' => false,
-					'multiple' => true,
+					'multiple' => false,
 					'inserter' => true,
 				),
 				'ghostkit' => array(

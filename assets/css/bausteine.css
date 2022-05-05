@@ -3,7 +3,8 @@ body.dragging, body.dragging * {
     cursor: move !important;
 }
 
-.components-text-control__input,.components-text-control__input:focus{
+div[class*="wp-block-lazyblock-reli-"] .components-text-control__input,
+div[class*="wp-block-lazyblock-reli-"] .components-text-control__input:focus{
     border: 0!important;
     border-color:transparent!important;
     box-shadow:none!important;

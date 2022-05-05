@@ -14,6 +14,11 @@ class bausteine {
 	}
 	static public function frontend_output($attributes) {
         //var_dump(htmlentities($attributes['bausteine']));die();
+
+        if(empty(trim(strip_tags($attributes['bausteine'],array('<img>', '<figure>'))))){
+            return false;
+        }
+
 		?>
 		<style>
             .baustein-gallery{
@@ -168,6 +173,9 @@ class bausteine {
 class baustein {
 
 	static public function frontend_output($attributes) {
+        if(empty($attributes['titel']) || empty($attributes['content']) && empty($attributes['kurzbeschreibung']) ){
+            return false;
+        }
 		//var_dump($attributes);
 		?>
         <style>
@@ -261,6 +269,7 @@ class baustein {
             </div>
         </div>
 		<?php
-
+		return true;
 	}
+
 }
