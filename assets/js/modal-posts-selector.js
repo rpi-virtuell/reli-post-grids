@@ -39,9 +39,10 @@
         open: function (e){
             modal.curr_block_clientId  = $(e.target).attr("data-client");
             $('.wp-block-lazyblock-reli-baustein').parent().slideUp();
-            modal.displayModalSearch();
             if(typeof tb_show == "function")
-                tb_show('Inhalte wählen', '#TB_inline?width=1000&inlineId=search-filter-modal');
+                tb_show('Inhalte wählen', '#TB_inline?inlineId=search-filter-modal');
+            modal.displayModalSearch();
+
 
         },
 
@@ -128,13 +129,26 @@
                     'action': 'getfilter'
                 },
                 function (response) {
-                    let filterbar = response;
-                    console.log(filterbar);
-                    console.log( $('#TB_ajaxContent'));
-                    $('#TB_ajaxContent').html(filterbar);
-                    //$('#TB_ajaxContent').append(filterbar);
 
+                    //create container in thickbox
+                    $('<div id="search-container"></div>').insertBefore($('#TB_ajaxContent'));
 
+                    //insert html Content from Ajax
+                    $('#search-container').html(response);
+
+                    //set container height
+                    var ht = $('#TB_window').height() - 60;
+                    $('#search-container').css({
+                        height: ht + 'px',
+                    });
+
+                    //set resultset height
+                    ht =  $('#TB_window').height() - $('#search-filter-form').height()- 60;
+                    $('#search-filter-results').css({
+                        height: ht + 'px',
+                    });
+
+                    //add triggers to filterbar submits
                     $('#search-filter-form').off('submit', modal.onSearch);
                     $('#search-filter-form').on('submit', modal.onSearch);
 
@@ -143,8 +157,6 @@
                 }
 
             );
-
-
 
         },
 

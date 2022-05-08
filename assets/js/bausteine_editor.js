@@ -327,10 +327,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
                         }
                     }
                 });
-                //blockeditor ui aufräumen;
-                setTimeout(()=>{
-                    $('.interface-pinned-items button:nth-child(2)').remove();
-                    },2000);
+
             });
         },
 
@@ -370,6 +367,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
                     let parentClientId = select('core/block-editor').getBlockHierarchyRootClientId(curr_block.clientId);
                     bausteine.displayCards(parentClientId);
                 }
+
             }
 
 
@@ -393,14 +391,9 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
             if(blockType.name=='lazyblock/reli-bausteine'){
                 console.log('changeBlockType',blockType)
                 blockType.attributes.allowedBlocks=['lazyblock/reli-baustein'];
-                //blockType.parent=[];
 
             }
 
-            // if(blockType.name=='core/paragraph'){
-            //     blockType.attributes.placeholder= 'Ausführlicher Inhalt oder tippe / um einen Block einzufügen';
-            //
-            // }
 
         });
         return fn

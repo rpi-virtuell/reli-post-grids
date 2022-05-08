@@ -61,19 +61,16 @@ class rpi_Lzb_Plugin_Post_Selector {
 		} );
 	    self::addblocks();
 
-		/*
-	    function filter_block_editor_settings_when_post_provided( $editor_settings, $editor_context ) {
-
-			//var_dump($editor_settings);die();
-
-		    if ( ! empty( $editor_context->post ) ) {
-			    $editor_settings['maxUploadFileSize'] = 12345;
-		    }
-		    return $editor_settings;
+	    // WP Core Thickbox im Frontend aktivieren, nutzbar machen
+	    function add_thickbox_script_and_style(){
+		    wp_enqueue_script('jquery');
+		    wp_enqueue_script('thickbox',null,array('jquery'));
+		    wp_enqueue_style('thickbox.css', '/'.WPINC.'/js/thickbox/thickbox.css', null, '1.0');
 	    }
+	    add_action('init','add_thickbox_script_and_style');
 
-	    add_filter( 'block_editor_settings_all', 'filter_block_editor_settings_when_post_provided', 10, 2 );
-		*/
+
+
 		/**
 		 * TODO check $data before publish, send  infos to team, set post_status to new preview status
 		 */

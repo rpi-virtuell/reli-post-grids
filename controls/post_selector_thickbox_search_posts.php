@@ -107,16 +107,17 @@ class post_selector_thickbox_search_posts {
 				$tax_query['relation'] ='OR';
 			}
 
-
+            $post_type = get_field('template_post_type', 'option');
 	        $args=array(
 		        'tax_query'=> $tax_query ,
 		        'post_status'=>'publish',
-		        'post_type'=>'materialien',
+		        'post_type'=>$post_type,
+		        'numberposts' => -1,
 		        's'=>$search,
 		        'author'=>$author
 	        );
 
-            //var_dump($args);
+           //var_dump($args);
 	        $query = new WP_Query($args);
 
 
