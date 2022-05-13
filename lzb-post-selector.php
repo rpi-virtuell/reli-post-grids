@@ -71,6 +71,7 @@ class rpi_Lzb_Plugin_Post_Selector {
 
 
 
+
 		/**
 		 * TODO check $data before publish, send  infos to team, set post_status to new preview status
 		 */
@@ -353,7 +354,7 @@ class rpi_Lzb_Plugin_Post_Selector {
 						'name' => 'collaborative',
 						'default' => '',
 						'label' => 'Kollaborativ',
-						'help' => 'Angemldete Nutzerinnen zu der Sammlung eigene Ideen hinzufügen.',
+						'help' => 'Angemeldete Nutzerinnen zu der Sammlung eigene Ideen hinzufügen.',
 						'child_of' => '',
 						'placement' => 'inspector',
 						'width' => '100',
@@ -363,6 +364,22 @@ class rpi_Lzb_Plugin_Post_Selector {
 						'required' => 'false',
 						'checked' => 'false',
 						'alongside_text' => '',
+						'placeholder' => '',
+						'characters_limit' => '',
+					),
+					'control_c11931469d' => array(
+						'type' => 'hidden',
+						'name' => 'template',
+						'default' => '',
+						'label' => '',
+						'help' => '',
+						'child_of' => '',
+						'placement' => 'inspector',
+						'width' => '100',
+						'hide_if_not_selected' => 'false',
+						'save_in_meta' => 'false',
+						'save_in_meta_name' => '',
+						'required' => 'false',
 						'placeholder' => '',
 						'characters_limit' => '',
 					),
@@ -387,3 +404,4 @@ class rpi_Lzb_Plugin_Post_Selector {
 }
 
 rpi_Lzb_Plugin_Post_Selector::init();
+
