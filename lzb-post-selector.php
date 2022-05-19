@@ -124,7 +124,10 @@ class rpi_Lzb_Plugin_Post_Selector {
 		);
 		wp_enqueue_script(
 			'modal-posts_selector',
-			plugin_dir_url( __FILE__ ) . '/assets/js/modal-posts-selector.js'
+			plugin_dir_url( __FILE__ ) . '/assets/js/modal-posts-selector.js',
+			null,
+			null,
+			true
 		);
 		wp_enqueue_script(
 			'jquery-sortable',
@@ -179,7 +182,7 @@ class rpi_Lzb_Plugin_Post_Selector {
 						'save_in_meta' => 'false',
 						'save_in_meta_name' => '',
 						'required' => 'false',
-						'placeholder' => 'Überschrift',
+						'placeholder' => 'Baustein #',
 						'characters_limit' => '',
 					),
 					'control_3f2bf740e0' => array(

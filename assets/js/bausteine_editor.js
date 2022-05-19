@@ -84,7 +84,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
                 let imgurl, title = brick.attributes.titel;
 
                 if(!title){
-                    title = 'Noch keine Überschrift'
+                    title = 'Baustein #'
                 }
 
                 // if(brick.attributes.post_id){
@@ -152,8 +152,8 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
             //Trigger initialisieren
             block.find(".baustein-gallery-grid .baustein-card").off('click', bausteine.onCardClick);
             block.find(".baustein-gallery-grid .baustein-card").on('click', bausteine.onCardClick);
-            block.find(".baustein-gallery-grid .baustein-card h4").off('dblclick', bausteine.onCardDblClick);
-            block.find(".baustein-gallery-grid .baustein-card h4").on('dblclick', bausteine.onCardDblClick);
+            block.find(".baustein-gallery-grid .baustein-card h4").off('click', bausteine.onCardDblClick);
+            block.find(".baustein-gallery-grid .baustein-card h4").on('click', bausteine.onCardDblClick);
             //block.find(".addbaustein").off('click touchstart', bausteine.onAddButtonClick);
             //block.find(".addbaustein").on('click touchstart', bausteine.onAddButtonClick);
             //sortable klappt nur im Sesktop Mode
@@ -251,7 +251,9 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
                 bcard = $(e.target).closest('.baustein-card');
             }
             let block = bcard.attr('id').replace('bcard-', '#block-');
-            $(block+' .lzb-content-controls > div:first-child .components-text-control__input').focus();
+            setTimeout(()=>{
+                $(block+' .lzb-content-controls > div:first-child .components-text-control__input').focus();
+            },110);
         },
         onCardClick: function (e) {
 
