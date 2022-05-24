@@ -125,6 +125,24 @@ baustein-gallery-grid li.placeholder:before {
     margin-top: 10px;
 }
 button.baustein-inserter{
+    height: 24px;
+    overflow: hidden;
+    border:0;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+}
+button.baustein-inserter svg {
+    background-color: black;
+    fill: #ccc;
+}
+button.baustein-inserter svg:hover {
+    background-color: #007CBA;
+    fill: #fff;
+}
+
+/*
+button.baustein-inserter{
     font-size: 24px;
     font-weight: bold;
     line-height: 82%;
@@ -134,6 +152,7 @@ button.baustein-inserter{
     background-color: black;
     padding: 0 4px 5px;
 }
+*/
 button.baustein-inserter:hover{
     background-color: #006BA1;
 }

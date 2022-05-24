@@ -26,8 +26,8 @@
 
             const newType = {
                 slug:'post',
-                label:'Material',
-                help: 'existierender Beitrag',
+                label:'Vorhandes Material',
+                help: 'Einen existierenden Materialbeitrag suchen und einfügen',
                 fn : bausteine.plugins.modal.open
             };
             if(bausteine.bausteinTypes.filter(t=> t.slug == newType.slug).length === 0){
