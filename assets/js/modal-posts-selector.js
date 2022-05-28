@@ -189,7 +189,10 @@
 
     };
 
-    window.bausteine.plugins.modal = modal;
+    if(window.bausteine  &&  window.bausteine.plugins  != undefined){
+        window.bausteine.plugins.modal = modal;
+    }
+
 
 
 })(jQuery);
