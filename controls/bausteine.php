@@ -52,17 +52,21 @@ class bausteine {
                 margin: 0;
 
             }
-            .baustein-footer{
+            /*.baustein-footer{
                 text-align: right;
-            }
+                font-size: 12px;
+            }*/
             .scaled .baustein-gallery-grid{
                 /*grid-template-columns: repeat(6, 1fr);*/
                 width: 100%;
             }
-            .scaled .baustein-gallery-grid p{
-                font-size: 0px;
+            .scaled .baustein-gallery-grid p,  .scaled.baustein-gallery .card-description{
+                opacity: 0;
+                /*font-size: 0px;*/
                 line-height: 0px;
                 transition: all .5s linear;
+                height:0!important;
+                margin: 0;
             }
 
             .scaled.baustein-gallery .card-title{
@@ -109,12 +113,27 @@ class bausteine {
         <script>
             jQuery(document).ready(($)=>{
 
+                setTimeout(()=>{
+                    if(location.hash.toString().indexOf('baustein-')>0 ){
+                        $target = $('.showroom').first();
+                        console.log($target);
+                        id = location.hash.toString().replace('baustein-','bcard-');
+                        $(id).click();
+                        $('html, body').animate({
+                            'scrollTop': $target.offset().top -300
+                        }, 900, 'swing');
+                    }
+
+                },1000);
+
                 const icon = $('<div class="bausteine-icon"><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 0 24 24" width="40px" fill="#000000"><g><rect fill="none" height="24" width="24"/></g><g><g><g><path d="M3,3v8h8V3H3z M9,9H5V5h4V9z M3,13v8h8v-8H3z M9,19H5v-4h4V19z M13,3v8h8V3H13z M19,9h-4V5h4V9z M13,13v8h8v-8H13z M19,19h-4v-4h4V19z"/></g></g></g></svg></div>');
                 $('.baustein-gallery-header').prepend(icon);
 
                 $('.showroom').slideUp();
 
                 $('.baustein-card').on('click', (e)=>{
+
+                    let card;
 
                     if($(e.target).hasClass('baustein-card')){
                         card = $(e.target);
@@ -132,7 +151,8 @@ class bausteine {
                         card.addClass('selected-card');
                         let gallery =  card.closest('.baustein-gallery');
                         gallery.addClass('scaled');
-                        let showroom = gallery.find('.showroom') ;
+                        let showroom = gallery.find('.showroom');
+
                         showroom.html(card.find('.baustein-inner-content').html());
                         showroom.find('.baustein-article').show();
                         showroom.slideDown();
@@ -140,14 +160,20 @@ class bausteine {
                         //von rechts einfliegen
                         let h = showroom.height()+'px';
                         showroom.css({'min-height':h});
+
                         showroom.find('.baustein-article').css({'position':'absolute','left':'300px', 'opacity':0});
-                        showroom.find('.baustein-article').animate({'left':'1px','opacity':1},300,()=>{
+                        showroom.find('.baustein-article').animate({'left':'1px','opacity':1},600,()=>{
                             showroom.find('.baustein-article').css({'position':'relative'});
                             showroom.css({'min-height':'unset'});
                         });
 
                     }
+                    $('.baustein-article-header').click(()=>{
 
+                        $('.baustein-card').removeClass('selected-card');
+                        $('.showroom').slideUp();
+                        setTimeout(()=>{  $('.baustein-gallery').removeClass('scaled');},500);
+                    });
 
                 })
                 $(document).mouseup(function(e)
@@ -190,6 +216,7 @@ class baustein {
                 box-shadow: 1px 1px 3px #999;
                 transition: all .3s linear;
             }
+
             .baustein-card:hover{
                 border: 1px solid orange;
                 background: lavenderblush;
@@ -207,6 +234,18 @@ class baustein {
             .baustein-card p{
                 transition: all .3s linear;
             }
+
+            .baustein-article-header::after {
+                content: 'X';
+                position: absolute;
+                right: 6px;
+                top: 7px;
+                border: 1px solid #222;
+                padding: 11px 6px;
+                line-height: 0;
+                border-radius: 50%;
+                opacity: 0.5;
+            }
             .baustein-article-header{
                 display:grid;
                 grid-template-columns: 60px auto;
@@ -216,6 +255,13 @@ class baustein {
             }
             .baustein-article-header .block-title{
                 font-size: 24px;
+            }
+            .baustein-card .card-title h4{
+                font-size: 18px;
+            }
+            .baustein-card  p.card-description{
+                font-size: 12px;
+                line-height: 13px;
             }
             .baustein-article-header .baustein-icon{
                 width: 30px;
@@ -238,19 +284,24 @@ class baustein {
                 .baustein-gallery-grid{
                     grid-template-columns: repeat(2, 1fr);
                 }
-                .baustein-card .card-title{
+                .baustein-card .card-title h4{
                     font-size: 18px;
                 }
+
                 .scaled.baustein-gallery .card-title{
                     font-size: 13px;
+                }
+                .scaled.baustein-gallery .card-description{
+                    font-size: 0px;
                 }
             }
         </style>
         <div class="baustein-card <?php echo $attributes['post_id']?'post':'';?>" id="bcard-<?php echo $attributes['blockId'] ?>" data-block="<?php echo $attributes['blockId'] ?>">
-            <div class="card-title"><?php echo $attributes['titel'];?></div>
-            <p><?php echo $attributes['kurzbeschreibung'];?></p>
+            <div class="card-title ct-header-text"><h4>
+                    <a href="#baustein-<?php echo $attributes['blockId'];?>" titel="<?php echo $attributes['post_id']?'Material':'Inhaltsbaustein' ?>"><?php echo $attributes['titel'];?></a></h4></div>
+            <p class="card-description"><?php echo $attributes['kurzbeschreibung'];?></p>
             <div class="baustein-inner-content">
-                <div class="baustein-article">
+                <div class="baustein-article" id="baustein-<?php echo $attributes['blockId'];?>">
                     <div class="baustein-article-header">
                         <div class="baustein-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16h-9v-6h9v6z" /></svg>
@@ -265,7 +316,7 @@ class baustein {
 
             </div>
             <div class="baustein-footer">
-                <?php echo $attributes['post_id']?'Material':'Inhaltsbaustein' ?>
+
             </div>
         </div>
 		<?php
