@@ -34,6 +34,7 @@
                 bausteine.bausteinTypes.push(newType);
             }
 
+            bausteine.displayBlocks();
         },
 
         open: function (e){
@@ -189,9 +190,21 @@
 
     };
 
-    if(window.bausteine  &&  window.bausteine.plugins  != undefined){
-        window.bausteine.plugins.modal = modal;
-    }
+    wp.domReady(()=>{
+
+        setTimeout(e=>{
+            if(window.bausteine  &&  window.bausteine.plugins  != undefined){
+                window.bausteine.plugins.modal = modal;
+
+                window.bausteine.plugins.modal.init();
+
+            }
+        },1000)
+
+
+    });
+
+
 
 
 

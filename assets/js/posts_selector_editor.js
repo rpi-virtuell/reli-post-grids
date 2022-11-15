@@ -81,13 +81,14 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onBeforeChange', 'post-
     console.log('onBeforeChange', props.block, clientId);
 });
 
-wp.hooks.addFilter('lzb.editor.control.render', 'post-selector', function (render, controlData, blockData) {
+wp.hooks.addFilter('lzb.editor.control.render', '', function (render, controlData, blockData) {
+
 
     if (blockData.name != 'lazyblock/post-selector') {
         return render;
     }
 
-    console.log('render', blockData.name);
+
 
 
     //console.log('render.post-selector', controlData );
@@ -179,7 +180,7 @@ wp.hooks.addFilter('lzb.editor.control.render', 'post-selector', function (rende
             return false;
         });
 
-        /*Falls der nur eigene Inhalte durch suchen geändert wird Formular abschicken*/
+        /!*Falls der nur eigene Inhalte durch suchen geändert wird Formular abschicken*!/
         jQuery('#search-filter-only-my').on('change', function (e) {
             jQuery(e.target).closest('form').submit();
         });
@@ -203,4 +204,3 @@ wp.hooks.addFilter('lzb.editor.control.render', 'post-selector', function (rende
 
     return render;
 });
-

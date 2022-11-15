@@ -15,6 +15,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
 
         //kürzt die schreibweisen:
 
+
         const {
             select,                 //statt: www.data.select(...) jetzt nur: select(...)
             subscribe,              //...
@@ -42,6 +43,27 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
                     help:'Erzeugt ein neues Inhaltselement in diesem Block',
                     fn: bausteine.onAddButtonClick
                 });
+            },
+
+            displayBlocks: function (){
+
+                //plugin function#
+
+                for (const curr_block   of wp.data.select('core/block-editor').getBlocks()) {
+
+                    if (curr_block != null && bausteine.watchBlocks.includes(curr_block.name)) {
+                        if (curr_block.name == 'lazyblock/reli-bausteine') {
+                            bausteine.displayCards(curr_block.clientId);
+                        } else if (curr_block.name == 'lazyblock/reli-baustein') {
+                            //parent ermitteln
+                            let parentClientId = select('core/block-editor').getBlockHierarchyRootClientId(curr_block.clientId);
+                            bausteine.displayCards(parentClientId);
+                        }
+
+                    }
+
+                }
+
             },
 
             displayCards: function (clientId) {
@@ -320,7 +342,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
             },
             doBlockListObserve: function (fn) {
 
-                wp.domReady(() => {
+                //wp.domReady(() => {
                     /**
                      * create Observer
                      */
@@ -348,7 +370,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
                         }
                     });
 
-                });
+               // });
             },
 
             onChange: function (props) {
@@ -428,6 +450,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
 
         console.log('bausteine.onChange: ', props.block);
         bausteine.onChange(props);
+
 
         for(var name in bausteine.plugins){
            bausteine.plugins[name].init();
