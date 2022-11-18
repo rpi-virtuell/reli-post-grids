@@ -97,7 +97,6 @@ class rpi_Lzb_Plugin_Post_Selector {
 	    load_plugin_textdomain( 'lzb-post-selector', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
         // Include control.
-        //include_once self::$plugin_path . '/controls/post-selector.php';
         include_once self::$plugin_path . '/controls/post_selector_thickbox_search_posts.php';
         include_once self::$plugin_path . '/controls/bausteine.php';
 
@@ -130,12 +129,13 @@ class rpi_Lzb_Plugin_Post_Selector {
 			plugin_dir_url( __FILE__ ) . '/assets/js/modal-posts-selector.js',
 			null,
 			null,
-			false
+			true
 		);
 		wp_enqueue_script(
 			'jquery-sortable',
 			plugin_dir_url( __FILE__ ) . '/assets/js/jquery-sortable.js'
 		);
+
 	}
 
 	static function addblocks(){
@@ -260,7 +260,7 @@ class rpi_Lzb_Plugin_Post_Selector {
 				),
 				'code' => array(
 					'output_method' => 'php',
-					'editor_html' => '',
+					'editor_html' => ' ',
 					'editor_callback' => '',
 					'editor_css' => '',
 					'frontend_html' => '<?php baustein::frontend_output($attributes);',

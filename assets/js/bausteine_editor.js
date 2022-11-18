@@ -53,13 +53,8 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
 
                     if (curr_block != null && bausteine.watchBlocks.includes(curr_block.name)) {
                         if (curr_block.name == 'lazyblock/reli-bausteine') {
-                            bausteine.displayCards(curr_block.clientId);
-                        } else if (curr_block.name == 'lazyblock/reli-baustein') {
-                            //parent ermitteln
-                            let parentClientId = select('core/block-editor').getBlockHierarchyRootClientId(curr_block.clientId);
-                            bausteine.displayCards(parentClientId);
+//                            bausteine.displayCards(curr_block.clientId);
                         }
-
                     }
 
                 }
@@ -72,9 +67,13 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
 
                 let block = $('#block-' + clientId);
 
+                console.log('displayCards block',block);
+
                 //Erstes EingabeControlFeld im Bausteine Block ermitteln
                 let titleInputControl = block.find('.lzb-content-controls div').first();
                 titleInputControl.addClass('bausteine-header');
+
+                console.log('titleInputControl',titleInputControl);
 
                 //falls vorhanden Block Icon löschen
                 //block.find('.bausteine-icon').remove();
@@ -85,27 +84,33 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
                 //falls bereits vorhanden galery löschen
                 block.find(' .baustein-gallery').remove();
                 block.find(' .bausteine-leitfrage').remove();
+                block.find(' .baustein-helper').remove();
+
+                var bausteinHelper = $('<div id="baustein-helper-block-aa4cb23d-d28c-4d11-b593-7b6cec9d9ec9" class="baustein-helper" data-slug="aktion" title="Weitergehende Hilfen"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"></path></svg></div>');
+
+                var questionMark = bausteinHelper.insertAfter(titleInputControl.find('input').parent().parent());
+                questionMark.on('click', e=>open('/baustein-block'));
 
                 $('<span class="components-base-control__label bausteine-leitfrage">' +
                     '<details>'+
                     '<summary>Gib diesem Block eine passende Überschrift und füge alle benötigten Elemente ein. Mehr ..</summary>'+
-                    'Statt "Bausteine" kannst du diesem Block die Überschrift "Elemente", "Wochenplan", "Spiele", "Rezepte" ... geben.<br> ' +
+                    'Statt "Bausteine" kannst du diesem Block die Überschrift "Schatztruhe", "Wochenplan", "Spiele", "Rezepte" oder einfach nur "Elemente" geben.<br> ' +
                     'Klick danach auf das <span style="color:#fff;background: #000">&nbsp;+&nbsp;</span>, ' +
                     'um ein Element hinzuzufügen. Für jedes neue Element entsteht eine Kachel, hinter der sich ein Teil deines Materials verbirgt ' +
                     'und die erst angezeigt wird, wenn du die Kachel anklickst. ' +
                     'Benenne bei jedem Element den Titel passend z.B.: "Mazenbäckerei". Jedes Element hat ' +
                     'eine Kurzbeschreibung (z.B.: "Brot ohne Sauerteig backen für das Pessachfest") und darunter Platz für den eigentlichen Inhalt: ' +
-                    'Füge dort den die Idee, die zugeörigen Anleitungen gerne auch mit Bildern und Videos ein.' +
+                    'Füge dort deine Idee und zugeörige Anleitungen gerne auch mit Bildern und Videos ein.' +
                     '</details>'+
-                    '</span>').insertAfter(titleInputControl.find('input').parent());
+                    '</span>').insertAfter(titleInputControl.find('input').parent().parent().parent());
 
                 //Kalchel HTML-Container aufbauen
                 var gallery = $(
                     '<div style="width: 100%">' +
-                    '<div class="baustein-gallery">' +
-                    '<ul class="baustein-gallery-grid">' +
-                    '</ul>' +
-                    '</div>' +
+                        '<div class="baustein-gallery">' +
+                            '<ul class="baustein-gallery-grid">' +
+                            '</ul>' +
+                        '</div>' +
                     '</div>');
                 //und unter dem EingabeControlFeld
                 gallery.insertAfter(titleInputControl);
@@ -133,11 +138,14 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
                         '</li>'
                     ));
                 }
+
+
                 //beim neu Laden der Seite ist kein Block activ ausgewählt
                 if (select('core/block-editor').getSelectedBlock() === null) {
                     //alle sichtbaren baustein blocks unsichtbar verstecken: slideup
-                    block.find('.wp-block-lazyblock-reli-baustein').parent().slideUp();
+                    block.find('.wp-block-lazyblock-reli-baustein').slideUp();
                 }
+
 
                 $('<div id="dialog-'+clientId+'" class="addbaustein-inserter" onclick="jQuery(this).hide();">' +
                     '<div class="addbaustein-inserter-header">' +
@@ -157,6 +165,7 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
                     $('#'+id).off('click touchstart',type.fn);
                     $('#'+id).on('click touchstart',type.fn);
                 }
+
 
                 //Insertbutton, um per Klick einen weiteren Bauststein zu Beisteine hinzuzufügen
                 $('<div class="addbaustein-wrapper"><button id="btn-'+clientId+'" class="baustein-inserter" title="Element hinzufügen">' +
@@ -299,6 +308,8 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
 
                 let bcard;
 
+                console.log('e.target',e.target);
+
                 //sicher stellen dass di karte gemeint ist  und nicht der Titel, etc...
                 if ($(e.target).hasClass('baustein-card')) {
                     bcard = $(e.target);
@@ -327,13 +338,13 @@ wp.hooks.addAction('lzb.components.PreviewServerCallback.onChange','bausteine', 
 
                 let wpblock = $('#block-' + bausteineClientId);
 
-                console.log('wpblock', wpblock);
-
                 if (wpblock) {
                     wpblock.find('.baustein-card').removeClass('selected');
-                    wpblock.find('.wp-block-lazyblock-reli-baustein').parent().slideUp();
+                    wpblock.find('.wp-block-lazyblock-reli-baustein').slideUp();
                     bcard.addClass('selected');
                     $(bausteinId).slideDown();
+
+                    console.log('wpblock',bausteinId, wpblock);
                     //location.hash = '#block-'+ clientId;
                 }
 

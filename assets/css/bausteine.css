@@ -10,9 +10,11 @@ div[class*="wp-block-lazyblock-reli-"] .components-text-control__input:focus{
     box-shadow:none!important;
     outline: 0!important;
 }
-.components-base-control__label{
+.components-base-control__label.bausteine-leitfrage details{
+    color: #444;
+}
+.components-base-control__label.bausteine-leitfrage summary{
     color: orangered;
-
 }
 
 .dragged {
@@ -49,6 +51,16 @@ ul.sortable li.placeholder:before {
 }
 
 */
+.block-header .baustein-helper {
+    opacity: .2;
+}
+.block-header .baustein-helper:hover {
+    opacity: 1;
+}
+.block-header .baustein-helper svg {
+    width: 24px;
+    height: 24px;
+}
 .wp-block-lazyblock-reli-baustein{
     border: 1px solid orange;
     border-radius: 5px;
@@ -56,7 +68,7 @@ ul.sortable li.placeholder:before {
 
 .wp-block-lazyblock-reli-bausteine .components-text-control__input{
     border-color: transparent;
-    padding: 0;
+    padding: 10px 0;
 }
 .wp-block-lazyblock-reli-baustein .lzb-content-title, .wp-block-lazyblock-reli-bausteine .lzb-content-title{
     display: none!important;
